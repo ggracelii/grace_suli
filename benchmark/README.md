@@ -14,6 +14,8 @@ To compile both executables, simply run:
 make
 ```
 
+Adjust the `HIPCC` and `MPICC` variables in the Makefile if your system uses different paths for the HIP and MPI compilers.
+
 ## Running
 Use the provided `run.sh` script to launch the benchmark.
 
@@ -21,6 +23,7 @@ Use the provided `run.sh` script to launch the benchmark.
 ```bash
 ./run.sh <backend: rccl|mpi> <num_ranks> <message_size_in_bytes> [--int|--double|--float] [--corrupt]
 ```
+You may aso need to modify the `LD_LIBRARY_PATH` environment variable in `run.sh` if your MPI libraries are installed in a different location.
 
 ### Flags
 - `--int` for int datatype

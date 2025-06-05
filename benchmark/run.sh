@@ -2,6 +2,8 @@
 
 # Usage: ./run.sh <backend: rccl|mpi> <num_ranks> <message_size_in_bytes> [--int|--double|--float] [--corrupt]
 
+export LD_LIBRARY_PATH=$HOME/mpich/build/install/lib:$LD_LIBRARY_PATH
+
 if [ "$#" -lt 3 ]; then
     echo "Usage: $0 <backend: rccl|mpi> <num_ranks> <message_size_in_bytes> [--int|--double|--float] [--corrupt]"
     exit 1

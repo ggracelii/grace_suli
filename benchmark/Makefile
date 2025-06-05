@@ -7,8 +7,9 @@ RCCL_OUT := allreduce_benchmark_rccl
 MPI_SRC := allreduce_benchmark_mpi.c
 MPI_OUT := allreduce_benchmark_mpi
 
-MPI_INCLUDES := $(shell $(MPICC) -show | sed -e 's/^\S\+ //' -e 's/-l[^ ]*//g' -e 's/-L[^ ]*//g')
-MPI_LIBS := $(shell $(MPICC) -show | grep -o '\-l[^ ]*' | tr '\n' ' ')
+MPI_FLAGS := $(shell $(MPICC) -show)
+MPI_INCLUDES := $(filter -I%,$(MPI_FLAGS))
+MPI_LIBS := $(filter -l%,$(MPI_FLAGS))
 
 HIP_INCLUDES := -I/soft/compilers/rocm/rocm-6.3.2/include
 HIP_LIBS := -L/soft/compilers/rocm/rocm-6.3.2/lib -L$(HOME)/mpich/build/install/lib -lrccl -lamdhip64 -lhiprtc -lmpi
