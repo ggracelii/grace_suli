@@ -37,4 +37,4 @@ You may combine datatype and corrupt flags.
 ## Validation and Timing
 Each executable:
 - Validates the correctness of the AllReduce result.
-- Reports min, max, and average timing across all ranks.g
+- Reports min, max, and average timing across all ranks.
