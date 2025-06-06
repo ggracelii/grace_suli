@@ -1,7 +1,7 @@
 # RCCL Integration – MPICH Source Edits
 
-This folder contains all source modifications made to enable RCCL (Radeon Collective Communications Library) support within MPICH for the `Allreduce` collective operation. These changes were developed as part of Grace's 2025 SULI project at Argonne National Laboratory.
-
+This folder contains all source modifications made to enable RCCL support within MPICH for the `Allreduce` collective operation.
+ 
 ## Structure
 
 - **MPICH Source Files**  
