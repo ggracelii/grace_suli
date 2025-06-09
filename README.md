@@ -17,6 +17,10 @@ Welcome! This repository contains my work for the 2025 SULI internship at Argonn
 
 → See the `README.md` in this folder for implementation details and integration notes.
 
+- `mpich @ 7a750e6/`  
+  - Submodule pointing to my fork of the original MPICH repo
+  - Use this to rebuild MPICH & run tests  
+
 
 ## Build & Usage
 
