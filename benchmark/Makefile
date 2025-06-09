@@ -1,5 +1,5 @@
 HIPCC := /soft/compilers/rocm/rocm-6.3.2/bin/hipcc
-MPICC := $(HOME)/mpich/build/install/bin/mpicc
+MPICC := $(HOME)/grace_mpich/build/install/bin/mpicc
 
 RCCL_SRC := allreduce_benchmark_rccl.c
 RCCL_OUT := allreduce_benchmark_rccl
@@ -12,7 +12,7 @@ MPI_INCLUDES := $(filter -I%,$(MPI_FLAGS))
 MPI_LIBS := $(filter -l%,$(MPI_FLAGS))
 
 HIP_INCLUDES := -I/soft/compilers/rocm/rocm-6.3.2/include
-HIP_LIBS := -L/soft/compilers/rocm/rocm-6.3.2/lib -L$(HOME)/mpich/build/install/lib -lrccl -lamdhip64 -lhiprtc -lmpi
+HIP_LIBS := -L/soft/compilers/rocm/rocm-6.3.2/lib -L$(HOME)/grace_mpich/build/install/lib -lrccl -lamdhip64 -lhiprtc -lmpi
 CXXFLAGS := -D__HIP_PLATFORM_AMD__ $(HIP_INCLUDES) $(MPI_INCLUDES)
 
 .PHONY: all clean

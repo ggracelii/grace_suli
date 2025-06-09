@@ -2,7 +2,7 @@
 
 # Usage: ./run.sh <backend: rccl|mpi> <num_ranks> <message_size_in_bytes> [--int|--double|--float] [--corrupt]
 
-export LD_LIBRARY_PATH=$HOME/mpich/build/install/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH
 
 if [ "$#" -lt 3 ]; then
     echo "Usage: $0 <backend: rccl|mpi> <num_ranks> <message_size_in_bytes> [--int|--double|--float] [--corrupt]"
@@ -36,5 +36,11 @@ if [ ! -x "$exec" ]; then
     exit 1
 fi
 
-echo "Running: FI_PROVIDER=verbs ~/mpich/build/install/bin/mpiexec -n $num_ranks $exec $bytes $@"
-FI_PROVIDER=verbs ~/mpich/build/install/bin/mpiexec -n "$num_ranks" "$exec" "$bytes" "$@"
+# Only set GPU-related CVARs if using RCCL
+extra_envs=""
+if [ "$backend" = "rccl" ]; then
+    extra_envs="-genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl -genv MPIR_CVAR_ALLREDUCE_CCL rccl"
+fi
+
+echo "Running: FI_PROVIDER=verbs ~/mpich/build/install/bin/mpiexec -n $num_ranks $extra_envs $exec $bytes $@"
+FI_PROVIDER=verbs ~/mpich/build/install/bin/mpiexec -n "$num_ranks" $extra_envs "$exec" "$bytes" "$@"
