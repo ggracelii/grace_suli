@@ -42,24 +42,9 @@ if [ "$backend" = "mpi" ]; then
     FI_PROVIDER=verbs mpiexec -n "$num_ranks" "$MPI_BIN"
 
 elif [ "$backend" = "rccl" ]; then
-    echo "Compiling RCCL binary..."
-    hipcc \
-        -I./include -I./c/xccl/util -I./c/util \
-        -I$MPICH_DIR/include -I$HIP_PATH/include -I$HIP_PATH/include/rccl \
-        -D__HIP_PLATFORM_AMD__ -D_ENABLE_ROCM_ -D_ENABLE_RCCL_ \
-        -DOMB_XCCL_INCLUDE='"osu_util_xccl_rccl.h"' -DOMB_XCCL_TYPE_STR='"RCCL "' -DOMB_XCCL_ACC_TYPE=OMP_ACCELERATOR_ROCM \
-        ./c/xccl/collective/osu_xccl_allreduce.c ./c/xccl/util/osu_util_xccl_interface.c \
-        ./c/xccl/util/rccl/osu_util_rccl_impl.c \
-        ./c/util/osu_util.c ./c/util/osu_util_mpi.c \
-        -o "$RCCL_BIN" \
-        -L$HIP_PATH/lib -L$MPICH_DIR/lib -lrccl -lamdhip64 -lhiprtc -lmpi \
-        -Wno-macro-redefined -Wno-format -Wno-absolute-value -Wno-deprecated-non-prototype
-
-    if [ $? -ne 0 ]; then
-        echo "Compilation failed"
+    if [ ! -x "$RCCL_BIN" ]; then
+        echo "Error: RCCL binary '$RCCL_BIN' not found"
         exit 1
-    else 
-        echo "RCCL binary compiled successfully"
     fi
 
     echo "Running OSU Allreduce with RCCL backend..."

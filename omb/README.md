@@ -1,6 +1,7 @@
 # OSU Benchmark Automation
+
 This directory automates building, running, and plotting results for the OSU Allreduce latency benchmark across MPI and RCCL backends.
----
+
 ##  Scripts Overview
 ### `build.sh`
 Compiles the OSU Micro-Benchmarks by running `./configure` with appropriate flags, then building the benchmark using `make`.
@@ -30,7 +31,7 @@ Runs multiple trials of both MPI and RCCL benchmarks, averages the results, save
   - `<num_trials>`: Number of repetitions per backend to average
   - `<num_ranks>`: Number of ranks to use during the run
 Note: This script does not overwrite existing `data.csv` or `graph.png` files. Instead, it saves them as `data_N.csv` and `graph_N.png` using the next available number.
----
+
 ##  Output Artifacts
 A sample of each is included.
 - `data.csv`: Raw per-trial latency results by size and backend.

@@ -529,7 +529,7 @@ configure:17032: /home/grace.li/grace_mpich/build/install/bin/mpicc -o conftest 
 conftest.c:30:6: warning: conflicting types for built-in function 'sqrt' [-Wbuiltin-declaration-mismatch]
  char sqrt ();
       ^~~~
-/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccM53teR.o: undefined reference to symbol 'sqrt@@GLIBC_2.2.5'
+/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccAhrNz3.o: undefined reference to symbol 'sqrt@@GLIBC_2.2.5'
 /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /lib64/libm.so.6: error adding symbols: DSO missing from command line
 collect2: error: ld returned 1 exit status
 configure:17032: $? = 1
@@ -651,7 +651,7 @@ configure:17279: $? = 0
 configure:17279: result: yes
 configure:17284: checking for shmem_barrier_all
 configure:17284: /home/grace.li/grace_mpich/build/install/bin/mpicc -o conftest -I/home/grace.li/grace_mpich/build/install/include -I/soft/compilers/rocm/rocm-6.3.2/include -I/soft/compilers/rocm/rocm-6.3.2/include -L/soft/compilers/rocm/rocm-6.3.2/lib64 -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib64 -L/soft/compilers/rocm/rocm-6.3.2/lib -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib -L/home/grace.li/grace_mpich/build/install/lib -L/soft/compilers/rocm/rocm-6.3.2/lib -L/soft/compilers/rocm/rocm-6.3.2/lib64 conftest.c -lm -lmpi >&5
-/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccMveBp3.o: in function `main':
+/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccoNt2QW.o: in function `main':
 conftest.c:(.text+0xa): undefined reference to `shmem_barrier_all'
 collect2: error: ld returned 1 exit status
 configure:17284: $? = 1
@@ -728,7 +728,7 @@ configure: failed program was:
 configure:17284: result: no
 configure:17289: checking for upc_memput
 configure:17289: /home/grace.li/grace_mpich/build/install/bin/mpicc -o conftest -I/home/grace.li/grace_mpich/build/install/include -I/soft/compilers/rocm/rocm-6.3.2/include -I/soft/compilers/rocm/rocm-6.3.2/include -L/soft/compilers/rocm/rocm-6.3.2/lib64 -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib64 -L/soft/compilers/rocm/rocm-6.3.2/lib -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib -L/home/grace.li/grace_mpich/build/install/lib -L/soft/compilers/rocm/rocm-6.3.2/lib -L/soft/compilers/rocm/rocm-6.3.2/lib64 conftest.c -lm -lmpi >&5
-/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/cc1d4MOr.o: in function `main':
+/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccibcEBf.o: in function `main':
 conftest.c:(.text+0xa): undefined reference to `upc_memput'
 collect2: error: ld returned 1 exit status
 configure:17289: $? = 1
@@ -861,7 +861,7 @@ configure: failed program was:
 configure:17294: result: no
 configure:17300: checking for shmem_finalize
 configure:17300: /home/grace.li/grace_mpich/build/install/bin/mpicc -o conftest -I/home/grace.li/grace_mpich/build/install/include -I/soft/compilers/rocm/rocm-6.3.2/include -I/soft/compilers/rocm/rocm-6.3.2/include -L/soft/compilers/rocm/rocm-6.3.2/lib64 -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib64 -L/soft/compilers/rocm/rocm-6.3.2/lib -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib -L/home/grace.li/grace_mpich/build/install/lib -L/soft/compilers/rocm/rocm-6.3.2/lib -L/soft/compilers/rocm/rocm-6.3.2/lib64 conftest.c -lm -lmpi >&5
-/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccTSau5C.o: in function `main':
+/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/cc9DT3Rw.o: in function `main':
 conftest.c:(.text+0xa): undefined reference to `shmem_finalize'
 collect2: error: ld returned 1 exit status
 configure:17300: $? = 1
@@ -1181,7 +1181,7 @@ lt_cv_truncate_bin='/usr/bin/dd bs=4096 count=1'
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/grace.li/omb/missing aclocal-1.16'
+ACLOCAL='${SHELL} /home/grace.li/grace_suli/omb/missing aclocal-1.16'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -1191,9 +1191,9 @@ AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
 AM_DEFAULT_VERBOSITY='1'
 AM_V='$(V)'
 AR='ar'
-AUTOCONF='${SHELL} /home/grace.li/omb/missing autoconf'
-AUTOHEADER='${SHELL} /home/grace.li/omb/missing autoheader'
-AUTOMAKE='${SHELL} /home/grace.li/omb/missing automake-1.16'
+AUTOCONF='${SHELL} /home/grace.li/grace_suli/omb/missing autoconf'
+AUTOHEADER='${SHELL} /home/grace.li/grace_suli/omb/missing autoheader'
+AUTOMAKE='${SHELL} /home/grace.li/grace_suli/omb/missing automake-1.16'
 AWK='gawk'
 BUILD_PROFILING_LIB_FALSE=''
 BUILD_PROFILING_LIB_TRUE='#'
@@ -1244,7 +1244,7 @@ LIPO=''
 LN_S='ln -s'
 LTLIBOBJS=''
 LT_SYS_LIBRARY_PATH=''
-MAKEINFO='${SHELL} /home/grace.li/omb/missing makeinfo'
+MAKEINFO='${SHELL} /home/grace.li/grace_suli/omb/missing makeinfo'
 MANIFEST_TOOL=':'
 MKDIR_P='/usr/bin/mkdir -p'
 MPI2_LIBRARY_FALSE='#'
@@ -1339,7 +1339,7 @@ host_vendor='pc'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/grace.li/omb/install-sh'
+install_sh='${SHELL} /home/grace.li/grace_suli/omb/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'
