@@ -10,16 +10,35 @@ Welcome! This repository contains my work for the 2025 SULI internship at Argonn
 → See the `README.md` inside this folder for build and run instructions.
 
 - `integration/`  
-  - Contains modified MPICH source files that enable RCCL backend support. Changes include:
+  - . Changes include:
   - Collective algorithm dispatch hooks for RCCL
   - GPU buffer checking logic
   - RCCL-specific communicator initialization and teardown  
 
 → See the `README.md` in this folder for implementation details and integration notes.
 
-- `mpich @ 7a750e6/`  
+- `mpich/`  
   - Submodule pointing to my fork of the original MPICH repo
+  - Contains modified MPICH source files that enable RCCL backend support
   - Use this to rebuild MPICH & run tests  
+
+This folder contains all source modifications made to enable RCCL support within MPICH for the `Allreduce` collective operation.
+ 
+### Key Changes
+
+- **Switched from CUDA to HIP**  
+  - `cudaStreamCreate` → `hipStreamCreate`  
+  - `cudaSetDevice` → `hipSetDevice`  
+  - `cudaStreamSynchronize` → `hipStreamSynchronize`  
+  - CUDA error types and pointer attribute APIs replaced with HIP equivalents
+
+- **Switched from NCCL to RCCL**  
+  - RCCL was used as the backend for GPU collectives on AMD hardware
+  - Retained NCCL constants and function names (`ncclRedOp_t`, `ncclDataType_t`, `ncclCommInitRank`, etc.) because RCCL maintains API-level compatibility with NCCL
+  - This approach avoids the need for conditional compilation or wrapper macros for most symbols
+
+- **Preserved and Adjusted NCCL Implementation**  
+  - Included the `nccl.c` implementation with a minor fix: added a `break` to the `float16` switch case to avoid fall-through
 
 
 ## Build & Usage
