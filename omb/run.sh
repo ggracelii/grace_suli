@@ -1,14 +1,15 @@
 #!/bin/bash
 
-# Usage: ./run.sh <mpi|rccl> <num_ranks>
+# Usage: ./run.sh <mpi|rccl> <num_ranks> [ccl]
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <mpi|rccl> <num_ranks>"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <mpi|rccl> <num_ranks> [ccl]"
     exit 1
 fi
 
 backend="$1"
 num_ranks="$2"
+ccl_flag="$3"
 
 export HIP_PATH=/soft/compilers/rocm/rocm-6.3.2
 export PATH=$HIP_PATH/bin:$PATH
@@ -28,7 +29,16 @@ if [ "$backend" = "mpi" ]; then
         echo "Error: MPI binary '$MPI_BIN' not found"
         exit 1
     fi
-    echo "Running OSU Allreduce with MPI..."
+
+    if [ "$ccl_flag" = "ccl" ]; then
+        echo "Running OSU Allreduce with MPI + CCL algorithm..."
+        export MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl
+    else
+        echo "Running OSU Allreduce with default MPI algorithm..."
+        unset MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM
+        outfile="mpi_default_${num_ranks}.txt"
+    fi
+
     FI_PROVIDER=verbs mpiexec -n "$num_ranks" "$MPI_BIN"
 
 elif [ "$backend" = "rccl" ]; then
@@ -41,15 +51,17 @@ elif [ "$backend" = "rccl" ]; then
         ./c/xccl/collective/osu_xccl_allreduce.c ./c/xccl/util/osu_util_xccl_interface.c \
         ./c/xccl/util/rccl/osu_util_rccl_impl.c \
         ./c/util/osu_util.c ./c/util/osu_util_mpi.c \
-        -o ./c/xccl/collective/osu_xccl_allreduce \
+        -o "$RCCL_BIN" \
         -L$HIP_PATH/lib -L$MPICH_DIR/lib -lrccl -lamdhip64 -lhiprtc -lmpi \
         -Wno-macro-redefined -Wno-format -Wno-absolute-value -Wno-deprecated-non-prototype
+
     if [ $? -ne 0 ]; then
         echo "Compilation failed"
         exit 1
     else 
         echo "RCCL binary compiled successfully"
     fi
+
     echo "Running OSU Allreduce with RCCL backend..."
     FI_PROVIDER=verbs MB_DEVICE_TYPE=rocm mpiexec -n "$num_ranks" "$RCCL_BIN" -m 0:1048576 -i 10000
 

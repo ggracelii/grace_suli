@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Usage: ./run_and_plot.sh <num_trials> <num_ranks>
+# Usage: ./plot.sh <num_trials> <num_ranks>
 
 set -e
 
@@ -30,22 +30,24 @@ fi
 
 echo "size,backend,trial,latency" > "$CSV_FILE"
 
-run_and_extract() {
+extract() {
     local backend=$1
+    local flag=$2
     local tmp=$(mktemp)
 
     for ((i=1; i<=TRIALS; i++)); do
-        echo "Running ${backend^^} trial $i..."
-        ./run.sh "$backend" "$NUM_RANKS" > "$tmp"
-        awk -v backend="$backend" -v trial="$i" '/^[[:digit:]]/ {printf "%s,%s,%s,%.4f\n", $1, backend, trial, $2}' "$tmp" >> "$CSV_FILE"
+        echo "Running ${backend^^}${flag:+ +$flag} trial $i..."
+        ./run.sh "$backend" "$NUM_RANKS" "$flag" > "$tmp"
+        awk -v backend="$backend${flag:+_$flag}" -v trial="$i" '/^[[:digit:]]/ {printf "%s,%s,%s,%.4f\n", $1, backend, trial, $2}' "$tmp" >> "$CSV_FILE"
     done
-    echo "Extracted data for ${backend^^} into $CSV_FILE"
+    echo "Extracted data for ${backend^^}${flag:+ +$flag} into $CSV_FILE"
 
     rm "$tmp"
 }
 
-run_and_extract mpi
-run_and_extract rccl
+extract mpi         # default MPI
+extract mpi ccl     # MPI + CCL
+extract rccl        # RCCL backend
 
 cat <<EOF | $HOME/.local/bin/python3.12
 import pandas as pd
@@ -60,7 +62,7 @@ plt.figure(figsize=(10, 6))
 for backend in pivot_df.columns:
     plt.plot(pivot_df.index, pivot_df[backend], marker='o', label=backend.upper())
 
-plt.suptitle("Avg Latency across ${NUM_RANKS} nodes", fontsize=14)
+plt.suptitle("Avg Latency across ${NUM_RANKS} ranks", fontsize=14)
 plt.title("(Average of ${TRIALS} trials)", fontsize=10)
 plt.xlabel("size (bytes)")
 plt.ylabel("avg latency (μs)")
