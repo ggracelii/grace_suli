@@ -17,10 +17,10 @@ Runs a single instance of the Allreduce benchmark with the specified backend and
   ./run.sh <backend> <num_ranks>
   ```
   - `<backend>`:
-    - mpi — Run MPI backend
+    - mpich — Run MPICH backend
+    - mpichccl - Run MPICH-CCL backend
     - rccl — Run RCCL backend
 	- `<num_ranks>`: Number of processes to launch with `mpiexec`.
-	- `[ccl]` (optional): Only valid with mpi backend. Enables `MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl`.
 
 ### `plot.sh`
 Runs multiple trials of both MPI and RCCL benchmarks, averages the results, saves results to `data.csv`, and generates a plot saved in `graph.png`.
