@@ -1,0 +1,51 @@
+# OSU Micro-Benchmarks build artifacts and temporary files
+
+# Build output
+*.o
+*.lo
+*.la
+*.a
+*.so
+*.exe
+
+# Auto-generated dependency files
+*.Po
+*.Plo
+
+# Benchmark binaries
+omb/**/osu_*
+
+# Intermediate and build tool output
+.deps/
+autom4te.cache/
+libtool
+config.*
+Makefile
+Makefile.in
+aclocal.m4
+compile
+configure
+depcomp
+install-sh
+ltmain.sh
+missing
+
+# Build/install directories
+omb/install/
+omb/build/
+omb/**/Makefile
+omb/**/.deps/
+omb/**/Makefile.in
+
+# Python cache and temp files
+__pycache__/
+*.pyc
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# Output data and plots
+data*.csv
+graph*.png

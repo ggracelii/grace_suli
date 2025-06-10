@@ -48,7 +48,7 @@ case "$backend" in
             exit 1
         fi
 
-        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000
         ;;
 
     mpichccl)

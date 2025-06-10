@@ -32,22 +32,35 @@ echo "size,backend,trial,latency" > "$CSV_FILE"
 
 extract() {
     local backend=$1
-    local flag=$2
     local tmp=$(mktemp)
 
     for ((i=1; i<=TRIALS; i++)); do
-        echo "Running ${backend^^}${flag:+ +$flag} trial $i..."
-        ./run.sh "$backend" "$NUM_RANKS" "$flag" > "$tmp"
-        awk -v backend="$backend${flag:+_$flag}" -v trial="$i" '/^[[:digit:]]/ {printf "%s,%s,%s,%.4f\n", $1, backend, trial, $2}' "$tmp" >> "$CSV_FILE"
+        echo "Running ${backend^^} trial $i..."
+        ./run.sh "$backend" "$NUM_RANKS" > "$tmp"
+        awk -v backend="$backend" -v trial="$i" '/^[[:digit:]]/ {printf "%s,%s,%s,%.4f\n", $1, backend, trial, $2}' "$tmp" >> "$CSV_FILE"
     done
-    echo "Extracted data for ${backend^^}${flag:+ +$flag} into $CSV_FILE"
+    echo "Extracted data for ${backend^^} into $CSV_FILE"
 
     rm "$tmp"
 }
 
-extract mpi         # default MPI
-extract mpi ccl     # MPI + CCL
-extract rccl        # RCCL backend
+# extract mpich
+# extract mpichccl
+# extract rccl
+
+extract mpich &
+pid1=$!
+
+extract mpichccl &
+pid2=$!
+
+extract rccl &
+pid3=$!
+
+# Wait for all background jobs to finish
+wait $pid1
+wait $pid2
+wait $pid3
 
 cat <<EOF | $HOME/.local/bin/python3.12
 import pandas as pd
