@@ -31,6 +31,8 @@ Runs a single instance of the Allreduce benchmark with the specified backend and
 
   This threshold (44106 bytes) was selected based on a previous latency comparison graph across 2 ranks, averaged over 10 trials. It can be adjusted by modifying the threshold in `allreduce_intra_ccl.c` in the MPICH source.
 
+  There is room for improvement to make the switching mechanism more seamless and integrated.
+
   **Note:** Since the OSU benchmark does not support switching algorithms at runtime, `run.sh` splits execution into two separate calls for small and large message sizes.
 
 ### `plot.sh`

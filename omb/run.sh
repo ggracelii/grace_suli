@@ -12,7 +12,7 @@ fi
 backend="$1"
 num_ranks="$2"
 
-# Executable paths
+# Exec paths
 MPI_BIN=./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
 RCCL_BIN=./c/xccl/collective/osu_xccl_allreduce
 
@@ -27,10 +27,10 @@ MPICH_DIR=$HOME/grace_mpich/build/install
 export PATH=$MPICH_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$MPICH_DIR/lib:${LD_LIBRARY_PATH:-}
 
-# RCCL/CCL library path
+# RCCL/CCL lib path
 export LD_LIBRARY_PATH=$HOME/rccl/build/lib:${LD_LIBRARY_PATH:-}
 
-# Environment variables for MPI and RCCL``
+# Env variables for MPI + RCCL
 export FI_PROVIDER=verbs
 export MPIR_CVAR_VERBOSE=1
 export MB_DEVICE_TYPE=rocm
