@@ -1,6 +1,6 @@
 #! /bin/sh
 # Generated automatically by config.status (osu-micro-benchmarks) 7.5
-# Libtool was configured on host amdgpu01:
+# Libtool was configured on host amdgpu00:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 
 # Provide generalized library-building support services.
@@ -165,7 +165,7 @@ lock_old_archive_extraction=no
 LTCC="/home/grace.li/grace_mpich/build/install/bin/mpicc"
 
 # LTCC compiler flags.
-LTCFLAGS="-I/home/grace.li/grace_mpich/build/install/include"
+LTCFLAGS="-g -O2"
 
 # Take the output of nm and produce a listing of raw symbols and C names.
 global_symbol_pipe="sed -n -e 's/^.*[	 ]\\([ABCDGIRSTW][ABCDGIRSTW]*\\)[	 ][	 ]*\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 \\2 \\2/p' | sed '/ __gnu_lto/d'"
@@ -285,7 +285,7 @@ hardcode_into_libs=yes
 sys_lib_search_path_spec="/usr/lib64/gcc/x86_64-suse-linux/7 /usr/lib64 /lib64 /usr/x86_64-suse-linux/lib /lib /usr/lib "
 
 # Detected run-time system search path for libraries.
-sys_lib_dlsearch_path_spec="/lib64 /usr/lib64 /lib /usr/lib /usr/local/lib64 /usr/local/lib /opt/amdgpu/lib64 /opt/amdgpu/lib "
+sys_lib_dlsearch_path_spec="/lib64 /usr/lib64 /lib /usr/lib /usr/local/lib64 /usr/local/lib /opt/amdgpu/lib64 /opt/amdgpu/lib /usr/lib64/daos_srv "
 
 # Explicit LT_SYS_LIBRARY_PATH set during ./configure time.
 configure_time_lt_sys_library_path=""
@@ -11673,7 +11673,7 @@ reload_cmds="\$LD\$reload_flag -o \$output\$reload_objs"
 old_archive_cmds="\$AR \$AR_FLAGS \$oldlib\$oldobjs~\$RANLIB \$tool_oldlib"
 
 # A language specific compiler.
-CC="/soft/compilers/rocm/rocm-6.3.2/bin/hipcc"
+CC="/home/grace.li/grace_mpich/build/install/bin/mpicxx"
 
 # Is the compiler the GNU compiler?
 with_gcc=yes
@@ -11794,17 +11794,17 @@ file_list_spec=""
 hardcode_action=immediate
 
 # The directories searched by this compiler when creating a shared library.
-compiler_lib_search_dirs="lib /usr/lib64/gcc/x86_64-suse-linux/14 /usr/lib64/gcc/x86_64-suse-linux/14/../../../../lib64 /lib/../lib64 /usr/lib/../lib64 /usr/lib64/gcc/x86_64-suse-linux/14/../../../../x86_64-suse-linux/lib /lib /usr/lib"
+compiler_lib_search_dirs="/home/grace.li/grace_mpich/build/install/lib /usr/lib64/gcc/x86_64-suse-linux/7 /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 /lib/../lib64 /usr/lib/../lib64 /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib /usr/lib64/gcc/x86_64-suse-linux/7/../../.."
 
 # Dependencies to place before and after the objects being linked to
 # create a shared library.
-predep_objects="/usr/lib64/gcc/x86_64-suse-linux/14/../../../../lib64/crti.o /soft/compilers/rocm/rocm-6.3.2/lib/llvm/lib/clang/18/lib/linux/clang_rt.crtbegin-x86_64.o"
-postdep_objects="/soft/compilers/rocm/rocm-6.3.2/lib/llvm/lib/clang/18/lib/linux/clang_rt.crtend-x86_64.o /usr/lib64/gcc/x86_64-suse-linux/14/../../../../lib64/crtn.o"
+predep_objects="/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crti.o /usr/lib64/gcc/x86_64-suse-linux/7/crtbeginS.o"
+postdep_objects="/usr/lib64/gcc/x86_64-suse-linux/7/crtendS.o /usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64/crtn.o"
 predeps=""
-postdeps="-L/soft/compilers/rocm/rocm-6.3.2/lib -lamdhip64 -lstdc++ -lm -lgcc_s -lc -lgcc_s"
+postdeps="-lmpicxx -lmpi -lstdc++ -lm -lgcc_s -lc -lgcc_s"
 
 # The library search path used internally by the compiler when linking
 # a shared library.
-compiler_lib_search_path="-Llib -L/usr/lib64/gcc/x86_64-suse-linux/14 -L/usr/lib64/gcc/x86_64-suse-linux/14/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/14/../../../../x86_64-suse-linux/lib -L/lib -L/usr/lib"
+compiler_lib_search_path="-L/home/grace.li/grace_mpich/build/install/lib -L/usr/lib64/gcc/x86_64-suse-linux/7 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/lib -L/usr/lib64/gcc/x86_64-suse-linux/7/../../.."
 
 # ### END LIBTOOL TAG CONFIG: CXX

@@ -13,25 +13,21 @@ export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
 export MPICC=$MPICH_DIR/bin/mpicc
 export MPICXX=$MPICH_DIR/bin/mpicxx
 
+export MPIR_CVAR_VERBOSE=coll
+
 if [ ! -f "./configure" ]; then
     echo "Error: run this script from the root of osu-micro-benchmarks"
     exit 1
 fi
-
-export CFLAGS="-I$MPICH_DIR/include"
-export CPPFLAGS="-I$HIP_PATH/include"
-export LDFLAGS="-L$MPICH_DIR/lib -L$HIP_PATH/lib -L$HIP_PATH/lib64"
-export LIBS="-lmpi"
 
 make clean || true
 
 echo "Configuring OSU Micro-Benchmarks with ROCm and MPI..."
 ./configure \
   CC="$MPICC" \
-  CXX="$HIP_PATH/bin/hipcc" \
-  CFLAGS="$CFLAGS" \
-  LDFLAGS="$LDFLAGS" \
-  LIBS="$LIBS" \
+  CXX="$MPICXX" \
+  --enable-gpu \
+  --enable-mpi \
   --enable-rocm \
   --enable-mpi-collective \
   --with-rocm="$HIP_PATH" \

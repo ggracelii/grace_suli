@@ -190,12 +190,12 @@ AUTOMAKE = ${SHELL} /home/grace.li/grace_suli/omb/missing automake-1.16
 AWK = gawk
 CC = /home/grace.li/grace_mpich/build/install/bin/mpicc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -I/home/grace.li/grace_mpich/build/install/include
+CFLAGS = -g -O2
 CONVERT_CHECK_PATH = 
 CPP = /home/grace.li/grace_mpich/build/install/bin/mpicc -E
-CPPFLAGS = -I/soft/compilers/rocm/rocm-6.3.2/include -I/soft/compilers/rocm/rocm-6.3.2/include
-CXX = /soft/compilers/rocm/rocm-6.3.2/bin/hipcc
-CXXCPP = /soft/compilers/rocm/rocm-6.3.2/bin/hipcc -E
+CPPFLAGS = -I/soft/compilers/rocm/rocm-6.3.2/include 
+CXX = /home/grace.li/grace_mpich/build/install/bin/mpicxx
+CXXCPP = /home/grace.li/grace_mpich/build/install/bin/mpicxx -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2
 CYGPATH_W = echo
@@ -218,9 +218,9 @@ INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /usr/x86_64-suse-linux/bin/ld -m elf_x86_64
-LDFLAGS = -L/soft/compilers/rocm/rocm-6.3.2/lib64 -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib64 -L/soft/compilers/rocm/rocm-6.3.2/lib -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib -L/home/grace.li/grace_mpich/build/install/lib -L/soft/compilers/rocm/rocm-6.3.2/lib -L/soft/compilers/rocm/rocm-6.3.2/lib64 -lamdhip64
+LDFLAGS = -L/soft/compilers/rocm/rocm-6.3.2/lib64 -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib64 -L/soft/compilers/rocm/rocm-6.3.2/lib -Wl,-rpath=/soft/compilers/rocm/rocm-6.3.2/lib  -lamdhip64
 LIBOBJS = 
-LIBS = -lm -lmpi
+LIBS = -lm 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
