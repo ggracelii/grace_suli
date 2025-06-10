@@ -1,76 +1,84 @@
 #!/bin/bash
 
-# Usage: ./run.sh <mpich|mpichccl|ompiccl|rccl> <num_ranks>
+# Usage: ./run.sh <mpich|mpichccl|rccl> <num_ranks>
 
-set -e
+set -euo pipefail
 
 if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <mpich|mpichccl|ompiccl|rccl> <num_ranks>"
+    echo "Usage: $0 <mpich|mpichccl|rccl> <num_ranks>"
     exit 1
 fi
 
 backend="$1"
 num_ranks="$2"
 
-MPI_BIN=./c/mpi/collective/blocking/osu_allreduce
+# Executable paths
+MPI_BIN=./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
 RCCL_BIN=./c/xccl/collective/osu_xccl_allreduce
 
-export HIP_PATH=/soft/compilers/rocm/rocm-6.3.2
+# ROCm paths
+HIP_PATH=/soft/compilers/rocm/rocm-6.3.2
 export HIP_PLATFORM=amd
 export PATH=$HIP_PATH/bin:$PATH
 export LD_LIBRARY_PATH=$HIP_PATH/lib:$HIP_PATH/lib64:$LD_LIBRARY_PATH
+
+# MPICH paths
+MPICH_DIR=$HOME/grace_mpich/build/install
+export PATH=$MPICH_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
+
+# RCCL/CCL library path
+export LD_LIBRARY_PATH=$HOME/rccl/build/lib:$LD_LIBRARY_PATH
+
+# Environment variables for MPI and RCCL``
 export FI_PROVIDER=verbs
+export MPIR_CVAR_VERBOSE=1
+export MB_DEVICE_TYPE=rocm
 
 case "$backend" in
     mpich)
-        echo "[Running] MPICH (default MPI algorithm)..."
-        export MPICH_DIR=$HOME/grace_mpich/build/install
-        export PATH=$MPICH_DIR/bin:$PATH
-        export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
+        echo "Running default MPICH..."
 
         unset MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM
+        unset MPIR_CVAR_ALLREDUCE_CCL
         export MPIR_CVAR_DEVICE_COLLECTIVES=all
-        export MPIR_CVAR_VERBOSE=1
 
-        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000
+        if [ ! -x "$MPI_BIN" ]; then
+            echo "MPI binary not found at $MPI_BIN"
+            exit 1
+        fi
+
+        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
         ;;
 
     mpichccl)
-        echo "[Running] MPICH + CCL (NOTE: ensure MPICH is built with XCCL support)..."
-        export MPICH_DIR=$HOME/grace_mpich/build/install
-        export PATH=$MPICH_DIR/bin:$PATH
-        export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
-        export LD_LIBRARY_PATH=$HOME/xccl-install/lib:$LD_LIBRARY_PATH
+        echo "Running MPICH + RCCL..."
 
         export MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl
         export MPIR_CVAR_DEVICE_COLLECTIVES=none
-        export MPIR_CVAR_VERBOSE=1
+        export MPIR_CVAR_ALLREDUCE_CCL=rccl 
 
-        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000
-        ;;
+        if [ ! -x "$MPI_BIN" ]; then
+            echo "MPI binary not found at $MPI_BIN"
+            exit 1
+        fi
 
-    ompiccl)
-        echo "[Running] Open MPI + XCCL..."
-        export PATH=$HOME/openmpi-xccl-install/bin:$PATH
-        export LD_LIBRARY_PATH=$HOME/openmpi-xccl-install/lib:$LD_LIBRARY_PATH
-        export LD_LIBRARY_PATH=$HOME/ucx-install/lib:$HOME/xccl-install/lib:$LD_LIBRARY_PATH
-
-        export OMPI_MCA_coll=xcc
-        export OMPI_MCA_coll_xccl_verbose=1
-        
-        mpirun -np "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000
+        mpiexec -n "$num_ranks" "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
         ;;
 
     rccl)
-        echo "[Running] RCCL/XCCL benchmark (no MPI)..."
-        export LD_LIBRARY_PATH=$HOME/xccl-install/lib:$LD_LIBRARY_PATH
-        export LD_LIBRARY_PATH=$HOME/ucx-install/lib:$LD_LIBRARY_PATH
+        echo "Running RCCL-only benchmark..."
 
-        MB_DEVICE_TYPE=rocm mpiexec -n "$num_ranks" "$RCCL_BIN" -m 0:1048576 -i 10000
+        if [ ! -x "$RCCL_BIN" ]; then
+            echo "RCCL binary not found at $RCCL_BIN"
+            exit 1
+        fi
+
+        mpiexec -n "$num_ranks" "$RCCL_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
         ;;
 
     *)
-        echo "Error: unknown backend '$backend'. Use: mpich, mpichccl, ompiccl, or rccl"
+        echo "Error: unknown backend '$backend'. Use one of: mpich, mpichccl, rccl"
         exit 1
         ;;
 esac
