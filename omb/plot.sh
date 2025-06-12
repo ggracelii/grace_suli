@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Usage: ./plot.sh <num_trials> <num_ranks>
+# Usage: ./plot.sh <num_trials>
 
 set -e
 
 TRIALS=$1
-NUM_RANKS=$2
 
 CSV_FILE_BASE="data"
 CSV_FILE="${CSV_FILE_BASE}.csv"
@@ -23,22 +22,21 @@ while [ -f "$PLOT_FILE" ]; do
     ((i++))
 done
 
-if [ -z "$TRIALS" ] || [ -z "$NUM_RANKS" ]; then
-    echo "Usage: $0 <num_trials> <num_ranks>"
+if [ -z "$TRIALS" ]; then
+    echo "Usage: $0 <num_trials>"
     exit 1
 fi
 
 echo "size,backend,trial,latency" > "$CSV_FILE"
 
 extract() {
-    local backend=$1
-    local extra_arg=$2  # "n" for multi-node or "" for single-node
-    local label=$3       # custom backend label for CSV/plotting
+    local script=$1
+    local label=$2
     local tmp=$(mktemp)
 
     for ((i=1; i<=TRIALS; i++)); do
         echo "Running ${label^^} trial $i..."
-        ./run.sh "$backend" "$NUM_RANKS" $extra_arg > "$tmp"
+        "./$script" > "$tmp"
 
         awk -v backend="$label" -v trial="$i" '/^[[:digit:]]/ {
             printf "%s,%s,%s,%.4f\n", $1, backend, trial, $2
@@ -49,20 +47,30 @@ extract() {
     rm "$tmp"
 }
 
-# Run backends
-extract mpich "" mpich &
+# Run backends in parallel
+extract run_mpich_single.sh     mpich      &
 pid1=$!
 
-extract mpich n mpich_n &
+extract run_mpich_multi.sh      mpich_n    &
 pid2=$!
 
-extract mpichccl "" mpichccl &
+extract run_mpichccl_single.sh  mpichccl   &
 pid3=$!
 
-extract rccl "" rccl &
+extract run_mpichccl_multi.sh   mpichccl_n &
 pid4=$!
 
-wait $pid1 $pid2 $pid3 $pid4
+extract run_rccl_single.sh      rccl       &
+pid5=$!
+
+extract run_rccl_multi.sh       rccl_n     &
+pid6=$!
+
+# Optional auto backend (commented out)
+# extract run_auto_single.sh      auto       &
+# extract run_auto_multi.sh       auto_n     &
+
+wait $pid1 $pid2 $pid3 $pid4 $pid5 $pid6
 
 # Plotting
 cat <<EOF | $HOME/.local/bin/python3.12
@@ -77,10 +85,10 @@ pivot_df = pivot_df.sort_index()
 
 plt.figure(figsize=(10, 6))
 for backend in sorted(pivot_df.columns):
-    label = backend.upper().replace("_", " (Multi)") if backend == "mpich_n" else backend.upper()
+    label = backend.upper().replace("_N", " (Multi)") if "_n" in backend else backend.upper()
     plt.plot(pivot_df.index, pivot_df[backend], marker='o', linestyle='-', label=label)
 
-plt.suptitle("Latency across ${NUM_RANKS} ranks", fontsize=14)
+plt.suptitle("Allreduce Latency (log-scale size)", fontsize=14)
 plt.title("(Avg of ${TRIALS} trials)", fontsize=10)
 plt.xlabel("Size (bytes)")
 plt.ylabel("Avg Latency (μs)")

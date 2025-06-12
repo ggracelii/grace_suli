@@ -37,12 +37,19 @@ export MB_DEVICE_TYPE=rocm
 
 # Select mpiexec command
 if [ "$multi_node" = "n" ]; then
-    mpiexec_cmd="mpiexec --hostfile ./hosts.txt -n $num_ranks"
-    export HIP_VISIBLE_DEVICES=0
-    echo "Running on multiple nodes with hostfile ./hosts.txt"
+    N=2
+    PPN=4
+    NUM_PROCS=$(($N * $PPN))
+    mpiexec_cmd="mpiexec --hostfile hosts.txt -ppn $PPN -n $NUM_PROCS"
+    echo "Running with $NUM_PROCS processes across $N nodes, $PPN per node"
     $mpiexec_cmd bash -c 'echo Rank on $(hostname) starting...'
 else
-    mpiexec_cmd="mpiexec -n $num_ranks"
+    N=1
+    PPN=4
+    NUM_PROCS=$(($N * $PPN))
+    mpiexec_cmd="mpiexec -ppn $PPN -n $NUM_PROCS"
+    echo "Running with $NUM_PROCS processes across 1 node, $PPN per node"
+    $mpiexec_cmd bash -c 'echo Rank on $(hostname) starting...'
 fi
 
 case "$backend" in
@@ -50,6 +57,7 @@ case "$backend" in
         echo "Running default MPICH..."
         unset MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM
         unset MPIR_CVAR_ALLREDUCE_CCL
+
         export MPIR_CVAR_DEVICE_COLLECTIVES=all
 
         if [ ! -x "$MPI_BIN" ]; then
@@ -82,7 +90,7 @@ case "$backend" in
             exit 1
         fi
 
-        $mpiexec_cmd "$RCCL_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+        $mpiexec_cmd "$RCCL_BIN" -m 0:1048576 -i 10000
         ;;
 
     auto)
@@ -92,13 +100,13 @@ case "$backend" in
             exit 1
         fi
 
-        export MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl
         export MPIR_CVAR_ALLREDUCE_CCL=auto
         export MPIR_CVAR_DEVICE_COLLECTIVES=none
-        export MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE="$MPICH_DIR/../../maint/tuning/coll/mpir/generic.json"
+        export MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE="./tuning.json"
         export MPIR_CVAR_COLL_SELECTION_VERBOSE=2
+        export MPIR_CVAR_ACCELERATOR=rocm
 
-        $mpiexec_cmd "$MPI_BIN" -m 0:1048576 -i 1
+        $mpiexec_cmd "$MPI_BIN" -m 0:1048576 c-i 10000
         ;;
 
     *)
