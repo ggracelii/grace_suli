@@ -1,0 +1,2 @@
+amdgpu04
+amdgpu05
