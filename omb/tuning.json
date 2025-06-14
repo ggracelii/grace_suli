@@ -111,7 +111,7 @@
                     "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
                 }
             },
-            "avg_msg_size<=44106":
+            "avg_msg_size<=2048":
             {
                 "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
             },
