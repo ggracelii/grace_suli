@@ -11,4 +11,4 @@ mpiexec \
   -n $NUM_PROCS -ppn $PPN \
   -genv LD_LIBRARY_PATH $HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
   -genv MPIR_CVAR_DEVICE_COLLECTIVES all \
-  "$BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+  "$BIN" -m 0:1048576 -i 10000 -d rocm

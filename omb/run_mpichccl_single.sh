@@ -12,4 +12,4 @@ mpiexec \
   -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
   -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
   -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
-  "$BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+  "$BIN" -m 0:1048576 -i 10000 -d rocm

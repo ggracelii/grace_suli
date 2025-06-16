@@ -22,15 +22,15 @@ RCCL_INC=$RCCL_BASE/include/rccl
 RCCL_LIB=$RCCL_BASE
 
 # MPICH with RCCL support
-# export MPICH_DIR=$HOME/grace_mpich/build/install
-export MPICH_DIR=/soft/libraries/mpi/mpich/4.3.0-rocm6-gcc/bin
+export MPICH_DIR=$HOME/grace_mpich/build/install
+# export MPICH_DIR=/soft/libraries/mpi/mpich/4.3.0-rocm6-gcc
 export PATH=$MPICH_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
 export MPICC=$MPICH_DIR/bin/mpicc
 export MPICXX=$MPICH_DIR/bin/mpicxx
 
 # Compilation and link flags
-CPPFLAGS="-DENABLE_CCLCOMM -DENABLE_RCCL"
+CPPFLAGS="-DENABLE_CCLCOMM -DENABLE_RCCL -I${HIP_PATH}/include"
 CFLAGS="-I${RCCL_INC} -I${HIP_PATH}/include"
 LDFLAGS="-L${RCCL_LIB} -L${HIP_PATH}/lib"
 LIBS="-lrccl -lamdhip64"
@@ -56,10 +56,10 @@ print_block "Configuring OSU Micro-Benchmarks with GPU, MPI, and ROCM support...
   CFLAGS="$CFLAGS" \
   LDFLAGS="$LDFLAGS" \
   LIBS="$LIBS" \
-  --enable-gpu \
-  --enable-mpi \
+  --enable-rcclomb \
   --enable-rocm \
-  --enable-mpi-collective \
+  --with-hip="$HIP_PATH" \
+  --with-rccl="$RCCL_BASE" \
   --with-rocm="$HIP_PATH" \
   --prefix="$(pwd)/install"
 

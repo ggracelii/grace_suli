@@ -16,57 +16,81 @@ PPN=4
 NODES=$node_mode
 NUM_PROCS=$((NODES * PPN))
 
-MPI_BIN=./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce
-RCCL_BIN=./c/xccl/collective/osu_xccl_allreduce
+MPI_BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
+RCCL_BIN="./c/xccl/collective/osu_xccl_allreduce"
 
 HIP_PATH=/soft/compilers/rocm/rocm-6.3.2
-export HIP_PLATFORM=amd
-export PATH=$HIP_PATH/bin:$PATH
-export LD_LIBRARY_PATH=$HIP_PATH/lib:$HIP_PATH/lib64:${LD_LIBRARY_PATH:-}
-
 MPICH_DIR=$HOME/grace_mpich/build/install
-export PATH=$MPICH_DIR/bin:$PATH
-export LD_LIBRARY_PATH=$MPICH_DIR/lib:${LD_LIBRARY_PATH:-}
+RCCL_DIR=$HOME/rccl/build
 
-export LD_LIBRARY_PATH=$HOME/rccl/build/lib:${LD_LIBRARY_PATH:-}
+export HIP_PLATFORM=amd
 export MB_DEVICE_TYPE=rocm
 
+export PATH=$HIP_PATH/bin:$MPICH_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$HIP_PATH/lib:$HIP_PATH/lib64:$MPICH_DIR/lib:$RCCL_DIR/lib:${LD_LIBRARY_PATH:-}
+
 if [ "$node_mode" = "2" ]; then
-    mpiexec_cmd="mpiexec --hostfile hosts.txt -n $NUM_PROCS -ppn $PPN"
+    hosts="--hostfile hosts.txt"
 else
-    mpiexec_cmd="mpiexec -n $NUM_PROCS -ppn $PPN"
+    hosts=""
 fi
 
 case "$backend" in
     mpich)
         echo "Running MPICH benchmark..."
-        unset MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM
-        unset MPIR_CVAR_ALLREDUCE_CCL
-        export MPIR_CVAR_DEVICE_COLLECTIVES=all
-        exec $mpiexec_cmd "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES all \
+            "$MPI_BIN" -m 0:1048576 -i 10000  -d rocm
         ;;
 
     mpichccl)
         echo "Running MPICH + RCCL benchmark..."
-        export MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl
-        export MPIR_CVAR_ALLREDUCE_CCL=rccl
-        export MPIR_CVAR_DEVICE_COLLECTIVES=none
-        exec $mpiexec_cmd "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            "$MPI_BIN" -m 0:1048576 -i 10000 -d rocm
         ;;
 
     rccl)
         echo "Running RCCL-only benchmark..."
-        exec $mpiexec_cmd "$RCCL_BIN" -m 0:1048576 -i 10000
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            "$RCCL_BIN" -m 0:1048576 -i 10000
         ;;
 
     auto)
         echo "Running AUTO composite backend benchmark..."
-        export MPIR_CVAR_DEVICE_COLLECTIVES=all
-        export MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE=./tuning.json
-        export UCX_TLS=sm,self,rocm
-        exec $mpiexec_cmd "$MPI_BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE tuning.json \
+            -genv UCX_TLS=sm,self,rocm \
+            "$MPI_BIN" -m 0:1048576 -i 10000 -d rocm
         ;;
 
+    auto_dcall)
+        echo "Running AUTO backend with device collectives = all..."
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES all \
+            -genv MPIR_CVAR_ALLREDUCE_CCL auto \
+            -genv MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE tuning.json \
+            -genv UCX_TLS=sm,self,rocm \
+            "$MPI_BIN" -m 0:1048576 -i 10000 -d rocm
+        ;;
+
+    auto_dcnone)
+        echo "Running AUTO backend with device collectives = none..."
+        mpiexec $hosts -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv MPIR_CVAR_ALLREDUCE_CCL auto \
+            -genv MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE tuning.json \
+            -genv UCX_TLS=sm,self,rocm \
+            "$MPI_BIN" -m 0:1048576 -i 10000 -d rocm
+        ;;
     *)
         echo "Error: Unknown backend '$backend'. Use one of: mpich, mpichccl, rccl, auto"
         exit 1

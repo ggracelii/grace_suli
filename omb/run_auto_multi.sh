@@ -14,4 +14,4 @@ mpiexec \
   -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
   -genv MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE tuning.json \
   -genv MPIR_CVAR_ACCELERATOR rocm \
-  "$BIN" -m 0:1048576 -i 10000 --accelerator=rocm
+  "$BIN" -m 0:1048576 -i 10000 -d rocm
