@@ -22,7 +22,8 @@ RCCL_INC=$RCCL_BASE/include/rccl
 RCCL_LIB=$RCCL_BASE
 
 # MPICH with RCCL support
-export MPICH_DIR=$HOME/grace_mpich/build/install
+# export MPICH_DIR=$HOME/grace_mpich/build/install
+export MPICH_DIR=/soft/libraries/mpi/mpich/4.3.0-rocm6-gcc/bin
 export PATH=$MPICH_DIR/bin:$PATH
 export LD_LIBRARY_PATH=$MPICH_DIR/lib:$LD_LIBRARY_PATH
 export MPICC=$MPICH_DIR/bin/mpicc

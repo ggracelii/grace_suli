@@ -111,9 +111,27 @@
                     "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
                 }
             },
+            "avg_msg_size<=8":
+            {
+                "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
+            },
             "avg_msg_size=any":
             {
-               "algorithm=MPIR_Allreduce_intra_ccl": {}
+                "is_op_built_in=no":
+                {
+                    "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
+                },
+                "is_op_built_in=yes":
+                {
+                    "count<pow2":
+                    {
+                        "algorithm=MPIR_Allreduce_intra_recursive_doubling":{}
+                    },
+                    "count=any":
+                    {
+                        "algorithm=MPIR_Allreduce_intra_reduce_scatter_allgather":{}
+                    }
+                }
             }
         },
         "comm_type=inter":
