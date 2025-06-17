@@ -40,9 +40,9 @@ extract() {
     rm "$tmp"
 }
 
-extract mpich
-extract mpichccl
-extract rccl
+# extract mpich
+# extract mpichccl
+# extract rccl
 # extract auto
 extract auto_dcall
 extract auto_dcnone
