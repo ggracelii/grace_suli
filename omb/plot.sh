@@ -28,6 +28,7 @@ done
 cat <<EOF | $HOME/.local/bin/python3.12
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import LogLocator
 
 df = pd.read_csv("$CSV_FILE")
 df['size'] = pd.to_numeric(df['size'], errors='coerce')
@@ -47,15 +48,15 @@ for backend in pivot_df.columns:
 
 plt.xscale('log')
 plt.yscale('log')
+plt.ylim(auto=True)
 plt.xlabel('Message Size (Bytes)', fontsize=13)
 plt.ylabel('Latency (µs)', fontsize=13)
 legend = plt.legend(title='Backend')
 legend.get_title().set_fontsize(12)
 
-from matplotlib.ticker import MultipleLocator
 ax = plt.gca()
-ax.yaxis.set_major_locator(MultipleLocator(500))
-ax.yaxis.set_minor_locator(MultipleLocator(100))
+ax.yaxis.set_major_locator(LogLocator(base=10.0, subs='auto', numticks=10))
+ax.yaxis.set_minor_locator(LogLocator(base=10.0, subs=range(2, 10), numticks=10))
 
 plt.grid(True, which='both', linestyle='--', alpha=0.5)
 
