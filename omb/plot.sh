@@ -28,23 +28,44 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 df = pd.read_csv("$CSV_FILE")
+df['size'] = pd.to_numeric(df['size'], errors='coerce')
+df = df.dropna(subset=['size']).sort_values('size')
+
 avg_df = df.groupby(['size', 'backend'])['latency'].mean().reset_index()
-
 pivot_df = avg_df.pivot(index='size', columns='backend', values='latency')
-pivot_df = pivot_df.sort_index()
+plt.figure(figsize=(10, 10))
+for backend in pivot_df.columns:
+      plt.plot(
+          pivot_df.index,
+          pivot_df[backend],
+          marker='o',
+          linewidth=2,
+          label=backend.upper(),
+      )
 
-plt.figure(figsize=(10, 6))
-for backend in sorted(pivot_df.columns):
-    label = backend.upper()
-    plt.plot(pivot_df.index, pivot_df[backend], marker='o', label=label)
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('Message Size (Bytes)', fontsize=13)
+plt.ylabel('Latency (µs)', fontsize=13)
+legend = plt.legend(title='Backend')
+legend.get_title().set_fontsize(12)
 
-plt.suptitle("Allreduce Latency (log-scale size)", fontsize=14)
-plt.title("Averaged Latency over Trials", fontsize=10)
-plt.xlabel("Size (bytes)")
-plt.ylabel("Avg Latency (μs)")
-plt.xscale("log")
-plt.grid(True)
-plt.legend()
+from matplotlib.ticker import MultipleLocator
+ax = plt.gca()
+ax.yaxis.set_major_locator(MultipleLocator(500))
+ax.yaxis.set_minor_locator(MultipleLocator(100))
+
+plt.grid(True, which='both', linestyle='--', alpha=0.5)
+
+plt.text(
+    0.5, 1.05,
+    'Allreduce Latency (avg of 10 trials)',
+    fontsize=20,
+    horizontalalignment='center',
+    transform=plt.gca().transAxes
+)
+
+plt.subplots_adjust(top=0.8) 
 plt.tight_layout()
 plt.savefig("${PLOT_FILE}")
 print(f"Saved plot to ${PLOT_FILE}")
