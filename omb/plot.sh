@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Usage: ./plot.sh <csv_file>
+# Usage: ./plot.sh <csv_file> <num_nodes>
 
 set -e
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <csv_file>"
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <csv_file> <num_nodes>"
     exit 1
 fi
 
@@ -14,6 +14,8 @@ if [ ! -f "$CSV_FILE" ]; then
     echo "CSV file not found: $CSV_FILE"
     exit 1
 fi
+
+NODES=$2
 
 PLOT_FILE_BASE="graph"
 PLOT_FILE="${PLOT_FILE_BASE}.png"
@@ -59,7 +61,7 @@ plt.grid(True, which='both', linestyle='--', alpha=0.5)
 
 plt.text(
     0.5, 1.05,
-    'Allreduce Latency (avg of 10 trials)',
+    'Allreduce Latency for $NODES node(s) - avg of 10 trials',
     fontsize=20,
     horizontalalignment='center',
     transform=plt.gca().transAxes
