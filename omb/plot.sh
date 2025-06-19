@@ -33,30 +33,21 @@ from matplotlib.ticker import LogLocator, LogFormatter, FuncFormatter
 
 df = pd.read_csv("$CSV_FILE")
 df['size'] = pd.to_numeric(df['size'], errors='coerce')
-df = df.dropna(subset=['size']).sort_values('size')
 df['latency'] = pd.to_numeric(df['latency'], errors='coerce')
+df = df.dropna(subset=['size', 'latency'])
 df = df[df['latency'] > 0]
+df = df.sort_values('size')
 
-# avg_df = df.groupby(['size', 'backend'])['latency'].mean().reset_index()
-avg_df = df.groupby(['size', 'composition'])['latency'].mean().reset_index()
-# pivot_df = avg_df.pivot(index='size', columns='backend', values='latency')
-pivot_df = avg_df.pivot(index='size', columns='composition', values='latency')
+avg_df = df.groupby(['size', 'backend'])['latency'].mean().reset_index()
+pivot_df = avg_df.pivot(index='size', columns='backend', values='latency')
 plt.figure(figsize=(10, 10))
-# for backend in pivot_df.columns:
-#       plt.plot(
-#           pivot_df.index,
-#           pivot_df[backend],
-#           marker='o',
-#           linewidth=2,
-#           label=backend.upper(),
-#       )
-for composition in pivot_df.columns:
+for backend in pivot_df.columns:
       plt.plot(
           pivot_df.index,
-          pivot_df[composition],
+          pivot_df[backend],
           marker='o',
           linewidth=2,
-          label=composition.upper(),
+          label=backend.upper(),
       )
 
 plt.xscale('log')
@@ -64,8 +55,7 @@ plt.yscale('log')
 plt.ylim(auto=True)
 plt.xlabel('Message Size (Bytes)', fontsize=13)
 plt.ylabel('Latency (µs)', fontsize=13)
-# legend = plt.legend(title='Backend')
-legend = plt.legend(title='Composition')
+legend = plt.legend(title='Backend')
 legend.get_title().set_fontsize(12)
 
 ax = plt.gca()

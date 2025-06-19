@@ -2,50 +2,76 @@
 
 This directory automates building, running, and plotting results for the OSU Allreduce latency benchmark across MPI and RCCL backends.
 
-##  Scripts Overview
+## Scripts Overview
 ### `build.sh`
 Compiles the OSU Micro-Benchmarks by running `./configure` with appropriate flags, then building the benchmark using `make`.
-- **Usage:**
-  ```bash
-  ./build.sh
-  ```
-
+**Usage:**
+```bash
+./build.sh
+```
 ### `run.sh`
-Runs a single instance of the Allreduce benchmark with the specified backend and number of ranks.
-- **Usage:**
-  ```bash
-  ./run.sh <backend> <num_ranks>
-  ```
-  - `<backend>`:
-    - mpich — Run MPICH backend
-    - mpichccl - Run MPICH-CCL backend
-    - rccl — Run RCCL backend
-    - auto - Runs the composite backend
-    
-  - `<num_ranks>`: Number of processes to launch with `mpiexec`.
-
-  **Composite backend (`auto`) Overview**  
-  Uses MPICH with a message-size-based switch between MPI and RCCL.
-  - For messages smaller than 44106 bytes: `MPIR_CVAR_DEVICE_COLLECTIVES=all`, runs with default MPI.  
-  - For larger messages: `MPIR_CVAR_DEVICE_COLLECTIVES=none`, runs with RCCL and `--accelerator=rocm`.
-
-  This threshold (44106 bytes) was selected based on a previous latency comparison graph across 2 ranks, averaged over 10 trials. It can be adjusted by modifying the threshold in `allreduce_intra_ccl.c` in the MPICH source.
-
-  There is room for improvement to make the switching mechanism more seamless and integrated.
-
-  **Note:** Since the OSU benchmark does not support switching algorithms at runtime, `run.sh` splits execution into two separate calls for small and large message sizes.
+Runs a single instance of the Allreduce benchmark with the specified backend and number of nodes.
+**Usage:**
+```bash
+./run.sh <mpich|mpichccl|rccl|auto> <1|2>
+```
+- `<backend>`:
+  - `mpich`  Run MPICH backend
+  - `mpichccl`  Run MPICH-CCL backend
+  - `rccl`  Run RCCL backend
+  - `auto`  Runs the composite backend
+- `<1|2>`: Number of nodes to run on
+**Composite backend (`auto`) Overview**
+Uses MPICH with a message-size-based switch between MPI and RCCL:
+- For messages < 44106 bytes: `MPIR_CVAR_DEVICE_COLLECTIVES=all` (default MPI)
+- For messages  44106 bytes: `MPIR_CVAR_DEVICE_COLLECTIVES=none` (fallback to RCCL)
+This threshold is based on a latency comparison graph across 2 ranks, averaged over 10 trials, and can be adjusted in `allreduce_intra_ccl.c` in the MPICH source. `run.sh` splits execution into two separate calls for small and large messages due to OSU benchmark limitations.
 
 ### `plot.sh`
-Runs multiple trials of both MPI and RCCL benchmarks, averages the results, saves results to `data.csv`, and generates a plot saved in `graph.png`.
-- **Usage:**
-  ```bash
-  ./plot.sh <num_trials> <num_ranks>
-  ```
-  - `<num_trials>`: Number of repetitions per backend to average
-  - `<num_ranks>`: Number of ranks to use during the run
-**Note:** This script does not overwrite existing `data.csv` or `graph.png` files. Instead, it saves them as `data_N.csv` and `graph_N.png` using the next available number.
+Plots data from a CSV file and accepts the number of nodes for annotation.
+**Usage:**
+```bash
+./plot.sh <csv_file> <num_nodes>
+```
+- `<csv_file>`: File containing benchmark results
+- `<num_nodes>`: Used for labeling the plot
+The script does not overwrite existing files. Instead, it saves as `graph_N.png` using the next available number.
 
-##  Output Artifacts
-A sample of each is included.
-- `data.csv`: Raw per-trial latency results by size and backend.
-- `graph.png`: Log-scale plot of average latency per size.
+### `run_comp.sh`
+Runs all composition algorithms (`alpha`, `beta`, `gamma`, `delta`, and `dc-none`) with 10 trials each. Outputs a CSV of results and generates a plot image.
+
+### `trials.sh`
+Runs all backends for a given number of trials and either 1 or 2 nodes.
+**Usage:**
+```bash
+./trials.sh <1|2> <num_trials>
+```
+
+### Hardcoded Run Scripts
+The following scripts run predefined configurations for either 1 or 2 nodes using various backends. They are useful for reproducible benchmarks:
+- `run_auto_multi.sh`
+- `run_auto_single.sh`
+- `run_mpich_multi.sh`
+- `run_mpich_single.sh`
+- `run_mpichccl_multi.sh`
+- `run_mpichccl_single.sh`
+- `run_rccl_multi.sh`
+- `run_rccl_single.sh`
+These use either JSON tuning files or environment variables.
+
+### JSON Tuning Files
+These are MPICH tuning configuration files that influence backend switching logic. They are being customized to improve automatic behavior:
+- `test.json`
+- `tuning.json`
+- `posix_tuning.json`
+- `ch4_tuning.json`
+
+### Output Artifacts
+Sample output files from actual runs include:
+- `single_node_data.csv`
+- `multi_node_data.csv`
+- `single_node_composition_data.csv`
+- `single_node_graph.png`
+- `multi_node_graph.png`
+- `single_node_composition_graph.png`
+Each CSV contains raw per-trial latency results by size and backend or composition. PNGs are log-scale plots of average latency per message size, averaged over 10 trials.
