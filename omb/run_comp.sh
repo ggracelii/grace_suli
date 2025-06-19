@@ -38,7 +38,7 @@ run_composition () {
         *) echo "Unsupported composition: $comp" >&2; exit 1 ;;
     esac
 
-    echo "Running Composition $comp (${label^^})..."
+    echo "Running Composition $comp (${label})..."
 
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
@@ -46,9 +46,9 @@ run_composition () {
         mpiexec -n $NUM_PROCS -ppn $PPN \
             -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
-            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 0 \
-            -genv UCX_TLS=sm,self,rocm \
+            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
             -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
+            -genv UCX_TLS=sm,self,rocm \
             "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
@@ -57,6 +57,23 @@ run_composition () {
         rm "$TMP"
     done
 }
+
+run_dc_none () {
+    local label="dc-none"
+    echo "Running Device Collectives None..."
+    for ((t=1; t<=TRIALS; t++)); do
+        echo "  Trial $t..."
+        mpiexec -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH "$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv UCX_TLS=sm,self,rocm \
+            "$BIN" -m 0:1048576 -i 10000 -d rocm |
+
+        awk -v label="$label" -v trial="$t" -F',' 'NR > 1 { print $1 "," label "," trial "," $2 }' >> "$CSV_FILE"
+    done
+}
+
+run_dc_none
 
 for COMP in 0 1 2 3; do
     run_composition $COMP
