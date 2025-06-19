@@ -57,6 +57,7 @@ The following scripts run predefined configurations for either 1 or 2 nodes usin
 - `run_mpichccl_single.sh`
 - `run_rccl_multi.sh`
 - `run_rccl_single.sh`
+
 These use either JSON tuning files or environment variables.
 
 ### JSON Tuning Files
@@ -74,4 +75,5 @@ Sample output files from actual runs include:
 - `single_node_graph.png`
 - `multi_node_graph.png`
 - `single_node_composition_graph.png`
+
 Each CSV contains raw per-trial latency results by size and backend or composition. PNGs are log-scale plots of average latency per message size, averaged over 10 trials.
