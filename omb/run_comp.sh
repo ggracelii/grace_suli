@@ -63,13 +63,17 @@ run_dc_none () {
     echo "Running Device Collectives None..."
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
+        TMP=$(mktemp)
         mpiexec -n $NUM_PROCS -ppn $PPN \
-            -genv LD_LIBRARY_PATH "$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
             -genv UCX_TLS=sm,self,rocm \
-            "$BIN" -m 0:1048576 -i 10000 -d rocm |
+            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
 
-        awk -v label="$label" -v trial="$t" -F',' 'NR > 1 { print $1 "," label "," trial "," $2 }' >> "$CSV_FILE"
+        awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
+            printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
+        }' "$TMP" >> "$CSV_FILE"
+        rm "$TMP"
     done
 }
 
