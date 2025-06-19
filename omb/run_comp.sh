@@ -1,0 +1,106 @@
+#!/bin/bash
+set -euo pipefail
+
+# Usage: ./run_comp.sh
+
+TRIALS=10
+N=1
+PPN=4
+NUM_PROCS=$((N * PPN))
+BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
+CSV_FILE_BASE="data"
+CSV_FILE="${CSV_FILE_BASE}.csv"
+i=1
+while [ -f "$CSV_FILE" ]; do
+    CSV_FILE="${CSV_FILE_BASE}_$i.csv"
+    ((i++))
+done
+
+PLOT_FILE_BASE="graph"
+PLOT_FILE="${PLOT_FILE_BASE}.png"
+i=1
+while [ -f "$PLOT_FILE" ]; do
+    PLOT_FILE="${PLOT_FILE_BASE}_$i.png"
+    ((i++))
+done
+
+echo "size,composition,trial,latency" > "$CSV_FILE"
+
+run_composition () {
+    local comp=$1
+    local label
+
+    case "$comp" in
+        0) label="alpha" ;;
+        1) label="beta" ;;
+        2) label="gamma" ;;
+        3) label="delta" ;;
+        *) echo "Unsupported composition: $comp" >&2; exit 1 ;;
+    esac
+
+    echo "Running Composition $comp (${label^^})..."
+
+    for ((t=1; t<=TRIALS; t++)); do
+        echo "  Trial $t..."
+        TMP=$(mktemp)
+        mpiexec -n $NUM_PROCS -ppn $PPN \
+            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
+            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 0 \
+            -genv UCX_TLS=sm,self,rocm \
+            -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
+            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
+
+        awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
+            printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
+        }' "$TMP" >> "$CSV_FILE"
+        rm "$TMP"
+    done
+}
+
+for COMP in 0 1 2 3; do
+    run_composition $COMP
+done
+
+echo "All trials completed. Output saved to $CSV_FILE"
+
+cat <<EOF | $HOME/.local/bin/python3
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import FuncFormatter
+
+df = pd.read_csv("$CSV_FILE")
+df['size'] = pd.to_numeric(df['size'], errors='coerce')
+df['latency'] = pd.to_numeric(df['latency'], errors='coerce')
+df = df.dropna(subset=['size', 'latency'])
+df = df[df['latency'] > 0]
+
+avg_df = df.groupby(['size', 'composition'])['latency'].mean().reset_index()
+pivot_df = avg_df.pivot(index='size', columns='composition', values='latency')
+
+plt.figure(figsize=(10, 10))
+for comp in pivot_df.columns:
+    plt.plot(pivot_df.index, pivot_df[comp], marker='o', linewidth=2, label=comp.upper())
+
+plt.xscale('log')
+plt.yscale('log')
+plt.xlabel('Message Size (Bytes)', fontsize=13)
+plt.ylabel('Latency (µs)', fontsize=13)
+plt.title('Allreduce Latency by Composition (Avg of 10 Trials)', fontsize=16)
+
+def sci_notation(x, _):
+    if x == 0:
+        return "0"
+    exponent = int(np.floor(np.log10(x)))
+    base = x / 10**exponent
+    return fr"\${int(base)} \times 10^{exponent}\$"
+formatter = FuncFormatter(sci_notation)
+plt.gca().yaxis.set_major_formatter(formatter)
+
+plt.grid(True, which='both', linestyle='--', alpha=0.5)
+plt.legend(title='Composition')
+plt.tight_layout()
+plt.savefig("${PLOT_FILE}")
+print(f"Saved plot to ${PLOT_FILE}")
+EOF
