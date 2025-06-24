@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-# Usage: ./run_comp.sh
+# Usage: ./run_comp_mpi_single.sh
 
 TRIALS=10
-N=1
+N=2
 PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
@@ -43,13 +43,12 @@ run_composition () {
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
         TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN \
-            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
-            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
+        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
+            -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 0 \
             -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-            -genv UCX_TLS=sm,self,rocm \
-            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
+            "$BIN" -m 0:1048576 -i 10000 > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
             printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
@@ -64,11 +63,11 @@ run_dc_none () {
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
         TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN \
-            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
+            -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
             -genv UCX_TLS=sm,self,rocm \
-            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
+            "$BIN" -m 0:1048576 -i 10000 > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
             printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
