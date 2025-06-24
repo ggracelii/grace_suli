@@ -66,7 +66,7 @@ run_dc_none () {
         mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
             -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
-            -genv UCX_TLS=sm,self,rocm \
+            -genv UCX_TLS=sm,self,rocm,tcp \
             "$BIN" -m 0:1048576 -i 10000 > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {

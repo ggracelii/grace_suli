@@ -15,5 +15,5 @@ mpiexec \
   -genv MPIR_CVAR_ALLREDUCE_CCL auto \
   -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
   -genv MPIR_CVAR_COLL_SELECTION_TUNING_JSON_FILE tuning.json \
-  -genv UCX_TLS=sm,self,rocm, tcp \
+  -genv UCX_TLS=sm,self,rocm,tcp \
   "$BIN" -m 0:1048576 -i 10000 -d rocm
