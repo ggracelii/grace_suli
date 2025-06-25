@@ -4,7 +4,7 @@ set -euo pipefail
 # Usage: ./run_comp_rccl_single.sh
 
 TRIALS=10
-N=1
+N=2
 PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
@@ -43,12 +43,12 @@ run_composition () {
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
         TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN \
+        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
             -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
             -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
             -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-            -genv UCX_TLS=sm,self,rocm \
+            -genv UCX_TLS=sm,self,rocm,tcp \
             -genv UCX_WARN_UNUSED_ENV_VARS=n \
             "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
         
@@ -65,10 +65,10 @@ run_dc_none () {
     for ((t=1; t<=TRIALS; t++)); do
         echo "  Trial $t..."
         TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN \
+        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
             -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
-            -genv UCX_TLS=sm,self,rocm \
+            -genv UCX_TLS=sm,self,rocm,tcp \
             -genv UCX_WARN_UNUSED_ENV_VARS=n \
             "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
 
