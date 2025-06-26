@@ -8,6 +8,7 @@ N=1
 PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
+
 CSV_FILE_BASE="data"
 CSV_FILE="${CSV_FILE_BASE}.csv"
 i=1
@@ -31,10 +32,10 @@ run_composition () {
     local label
 
     case "$comp" in
-        0) label="alpha" ;;
-        1) label="beta" ;;
-        2) label="gamma" ;;
-        3) label="delta" ;;
+        1) label="alpha" ;;
+        2) label="beta" ;;
+        3) label="gamma" ;;
+        4) label="delta" ;;
         *) echo "Unsupported composition: $comp" >&2; exit 1 ;;
     esac
 
@@ -45,9 +46,11 @@ run_composition () {
         TMP=$(mktemp)
         mpiexec -n $NUM_PROCS -ppn $PPN \
             -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
-            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 0 \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
+            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
             -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
+            -genv UCX_TLS sm,self,rocm \
+            -genv UCX_WARN_UNUSED_ENV_VARS n \
             "$BIN" -m 0:1048576 -i 10000 > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
@@ -65,8 +68,9 @@ run_dc_none () {
         TMP=$(mktemp)
         mpiexec -n $NUM_PROCS -ppn $PPN \
             -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
-            -genv UCX_TLS=sm,self,rocm \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv UCX_TLS sm,self,rocm \
+            -genv UCX_WARN_UNUSED_ENV_VARS n \
             "$BIN" -m 0:1048576 -i 10000 > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
@@ -78,7 +82,7 @@ run_dc_none () {
 
 run_dc_none
 
-for COMP in 0 1 2 3; do
+for COMP in 1 2 3 4; do
     run_composition $COMP
 done
 

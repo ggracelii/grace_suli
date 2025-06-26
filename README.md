@@ -15,6 +15,11 @@ go
   - Use this to rebuild MPICH & run tests  
 
 This folder contains all source modifications made to enable RCCL support within MPICH for the `Allreduce` collective operation.
+
+- `omb/`
+	- Contains automation scripts and support files for running and plotting OSU Allreduce latency benchmarks across MPICH and RCCL backends
+  
+→ See the README.md inside this folder for details on scripts, usage examples, and output artifacts.
  
 ### Key Changes
 
@@ -35,4 +40,4 @@ This folder contains all source modifications made to enable RCCL support within
 
 ## Build & Usage
 
-Each folder contains build instructions specific to its content.
+Each folder contains build instructions specific to its content. 

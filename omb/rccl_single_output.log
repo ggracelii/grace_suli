@@ -1,0 +1,244 @@
+Running Device Collectives None...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffe34c6b22c, recvbuf=0x7ffe34c6b228)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+
+Running Composition 1 (alpha)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffd42d6854c, recvbuf=0x7ffd42d68548)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_bcast called (UCX)
+*                           MPIR_Bcast_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffd42d684d2, recvbuf=0x7ffd42d684d3)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffd42d684d2, recvbuf=0x7ffd42d684d3)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffd42d683b2, recvbuf=0x7ffd42d683b3)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+
+Running Composition 2 (beta)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fffeffd41ac, recvbuf=0x7fffeffd41a8)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_bcast called (UCX)
+*                           MPIR_Bcast_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fffeffd4132, recvbuf=0x7fffeffd4133)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fffeffd4132, recvbuf=0x7fffeffd4133)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fffeffd4012, recvbuf=0x7fffeffd4013)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+
+Running Composition 3 (gamma)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fff3d4bd8fc, recvbuf=0x7fff3d4bd8f8)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_bcast called (UCX)
+*                           MPIR_Bcast_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fff3d4bd882, recvbuf=0x7fff3d4bd883)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fff3d4bd882, recvbuf=0x7fff3d4bd883)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7fff3d4bd762, recvbuf=0x7fff3d4bd763)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+
+Running Composition 4 (delta)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffec92802ac, recvbuf=0x7ffec92802a8)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_bcast called (UCX)
+*                           MPIR_Bcast_impl called
+*                       MPIDI_SHM_mpi_bcast called
+
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffec9280232, recvbuf=0x7ffec9280233)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffec9280232, recvbuf=0x7ffec9280233)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+[RCCL Check] Unsupported MPI_Op passed: 1476395015
+[RCCL Check] Buffers not on GPU (sendbuf=0x7ffec9280112, recvbuf=0x7ffec9280113)
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called

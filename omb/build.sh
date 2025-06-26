@@ -30,7 +30,7 @@ export MPICC=$MPICH_DIR/bin/mpicc
 export MPICXX=$MPICH_DIR/bin/mpicxx
 
 # Compilation and link flags
-CPPFLAGS="-DENABLE_CCLCOMM -DENABLE_RCCL -I${HIP_PATH}/include"
+CPPFLAGS="-DENABLE_CCLCOMM -DENABLE_RCCL -D_ENABLE_ROCM -DROCM_ENABLED=1 -I${HIP_PATH}/include"
 CFLAGS="-I${RCCL_INC} -I${HIP_PATH}/include"
 LDFLAGS="-L${RCCL_LIB} -L${HIP_PATH}/lib"
 LIBS="-lrccl -lamdhip64"
@@ -38,30 +38,30 @@ LIBS="-lrccl -lamdhip64"
 # Optional: see verbose collective selection
 export MPIR_CVAR_VERBOSE=coll
 
-# Check location
-if [ ! -f "./configure" ]; then
-    print_block "Error: run this script from the root of osu-micro-benchmarks"
-    exit 1
-fi
+# # Check location
+# if [ ! -f "./configure" ]; then
+#     print_block "Error: run this script from the root of osu-micro-benchmarks"
+#     exit 1
+# fi
 
-# Clean prior build
-make clean || true
-rm -rf install
+# # Clean prior build
+# make clean || true
+# rm -rf install
 
-print_block "Configuring OSU Micro-Benchmarks with GPU, MPI, and ROCM support..."
-./configure \
-  CC="$MPICC" \
-  CXX="$MPICXX" \
-  CPPFLAGS="$CPPFLAGS" \
-  CFLAGS="$CFLAGS" \
-  LDFLAGS="$LDFLAGS" \
-  LIBS="$LIBS" \
-  --enable-rcclomb \
-  --enable-rocm \
-  --with-hip="$HIP_PATH" \
-  --with-rccl="$RCCL_BASE" \
-  --with-rocm="$HIP_PATH" \
-  --prefix="$(pwd)/install"
+# print_block "Configuring OSU Micro-Benchmarks with GPU, MPI, and ROCM support..."
+# ./configure \
+#   CC="$MPICC" \
+#   CXX="$MPICXX" \
+#   CPPFLAGS="$CPPFLAGS" \
+#   CFLAGS="$CFLAGS" \
+#   LDFLAGS="$LDFLAGS" \
+#   LIBS="$LIBS" \
+#   --enable-rcclomb \
+#   --enable-rocm \
+#   --with-hip="$HIP_PATH" \
+#   --with-rccl="$RCCL_BASE" \
+#   --with-rocm="$HIP_PATH" \
+#   --prefix="$(pwd)/install"
 
 print_block "Building..."
 make -j$(nproc)

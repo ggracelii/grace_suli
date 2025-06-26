@@ -1,13 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
-# Usage: ./run_comp_rccl_single.sh
+# Usage: ./run_comp_rccl_multi.sh
 
 TRIALS=10
 N=2
 PPN=4
 NUM_PROCS=$((N * PPN))
-BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
+BIN="./install/libexec/osu-micro-benchmarks/xccl/collective/osu_xccl_allreduce"
+
 CSV_FILE_BASE="data"
 CSV_FILE="${CSV_FILE_BASE}.csv"
 i=1
@@ -31,10 +32,10 @@ run_composition () {
     local label
 
     case "$comp" in
-        0) label="alpha" ;;
-        1) label="beta" ;;
-        2) label="gamma" ;;
-        3) label="delta" ;;
+        1) label="alpha" ;;
+        2) label="beta" ;;
+        3) label="gamma" ;;
+        4) label="delta" ;;
         *) echo "Unsupported composition: $comp" >&2; exit 1 ;;
     esac
 
@@ -46,10 +47,12 @@ run_composition () {
         mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
             -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
             -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
+            -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
+            -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
             -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
             -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-            -genv UCX_TLS=sm,self,rocm,tcp \
-            -genv UCX_WARN_UNUSED_ENV_VARS=n \
+            -genv UCX_TLS sm,self,rocm \
+            -genv UCX_WARN_UNUSED_ENV_VARS n \
             "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
         
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
@@ -67,22 +70,23 @@ run_dc_none () {
         TMP=$(mktemp)
         mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
             -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
-            -genv UCX_TLS=sm,self,rocm,tcp \
-            -genv UCX_WARN_UNUSED_ENV_VARS=n \
+            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+            -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
+            -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
+            -genv UCX_TLS=sm,self,rocm \
+            -genv UCX_WARN_UNUSED_ENV_VARS n \
             "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
 
         awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
             printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
         }' "$TMP" >> "$CSV_FILE"
         rm "$TMP"
-
     done
 }
 
 run_dc_none
 
-for COMP in 0 1 2 3; do
+for COMP in 1 2 3 4; do
     run_composition $COMP
 done
 

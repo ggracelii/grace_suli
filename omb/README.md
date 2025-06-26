@@ -49,16 +49,29 @@ Runs all backends for a given number of trials and either 1 or 2 nodes.
 
 ### Hardcoded Run Scripts
 The following scripts run predefined configurations for either 1 or 2 nodes using various backends. They are useful for reproducible benchmarks:
-- `run_auto_multi.sh`
 - `run_auto_single.sh`
-- `run_mpich_multi.sh`
+- `run_auto_multi.sh`
 - `run_mpich_single.sh`
-- `run_mpichccl_multi.sh`
+- `run_mpich_multi.sh`
 - `run_mpichccl_single.sh`
-- `run_rccl_multi.sh`
+- `run_mpichccl_multi.sh`
 - `run_rccl_single.sh`
+- `run_rccl_multi.sh`
 
 These use either JSON tuning files or environment variables.
+
+-	`run_comp_rccl_single.sh`
+- `run_comp_rccl_multi.sh`
+- `run_comp_mpi_single.sh`
+- `run_comp_mpi_multi.sh`
+-	`trace_comp_rccl_single.sh`
+- `trace_comp_rccl_multi.sh`
+- `trace_comp_mpi_single.sh`
+- `trace_comp_mpi_multi.sh`
+
+The `run_comp_*` and `trace_comp_*` scripts run all composition algorithms—`alpha, beta, gamma, delta`—as well as `MPIR_CVAR_DEVICE_COLLECTIVES=none` for both MPI native and MPICH-CCL backends. They support both single-node and multi-node setups. 
+- The run scripts are configured for 10 trials by default with 10,000 iterations for message sizes varying from 0 to 1048576 bytes. These scripts output a CSV of results and generate a corresponding plot.
+- The trace scripts run each algorithm once with 1 iteration for a set message size (4 bytes). The output tracing the execution paths are saved to a log.
 
 ### JSON Tuning Files
 These are MPICH tuning configuration files that influence backend switching logic. They are being customized to improve automatic behavior:
@@ -71,9 +84,11 @@ These are MPICH tuning configuration files that influence backend switching logi
 Sample output files from actual runs include:
 - `single_node_data.csv`
 - `multi_node_data.csv`
-- `single_node_composition_data.csv`
+- `comp_rccl_single_data.csv`
+- `comp_mpi_single_data.csv`
 - `single_node_graph.png`
 - `multi_node_graph.png`
-- `single_node_composition_graph.png`
+- `comp_mpi_multi_data.csv`
+- `comp_rccl_multi_graph.png`
 
 Each CSV contains raw per-trial latency results by size and backend or composition. PNGs are log-scale plots of average latency per message size, averaged over 10 trials.
