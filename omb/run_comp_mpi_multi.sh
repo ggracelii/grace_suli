@@ -70,7 +70,7 @@ run_dc_none () {
 
 run_dc_none
 
-for COMP in 1 2 3; do
+for COMP in 1 2; do
     run_composition $COMP
 done
 
@@ -99,7 +99,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('Message Size (Bytes)', fontsize=13)
 plt.ylabel('Latency (µs)', fontsize=13)
-plt.title('Allreduce Latency by Composition (MPI for single node)', fontsize=16)
+plt.title('Allreduce Latency by Composition (MPI for 2 nodes)', fontsize=16)
 
 def sci_notation(x, _):
     if x == 0:

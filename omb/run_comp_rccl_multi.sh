@@ -1,13 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-# Usage: ./run_comp_rccl_multi.sh
+# Usage: ./run_comp_rccl_single.sh
 
-TRIALS=10
 N=2
 PPN=4
 NUM_PROCS=$((N * PPN))
-BIN="./install/libexec/osu-micro-benchmarks/xccl/collective/osu_xccl_allreduce"
+BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
 
 CSV_FILE_BASE="data"
 CSV_FILE="${CSV_FILE_BASE}.csv"
@@ -25,7 +24,7 @@ while [ -f "$PLOT_FILE" ]; do
     ((i++))
 done
 
-echo "size,composition,trial,latency" > "$CSV_FILE"
+echo "size,composition,latency" > "$CSV_FILE"
 
 run_composition () {
     local comp=$1
@@ -40,57 +39,50 @@ run_composition () {
     esac
 
     echo "Running Composition $comp (${label})..."
-
-    for ((t=1; t<=TRIALS; t++)); do
-        echo "  Trial $t..."
-        TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
-            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
-            -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
-            -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
-            -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
-            -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-            -genv UCX_TLS sm,self,rocm \
-            -genv UCX_WARN_UNUSED_ENV_VARS n \
-            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
-        
-        awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
-            printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
-        }' "$TMP" >> "$CSV_FILE"
-        rm "$TMP"
-    done
+    TMP=$(mktemp)
+    mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
+        -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+        -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
+        -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
+        -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
+        -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
+        -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
+        -genv UCX_TLS sm,self,rocm \
+        -genv UCX_WARN_UNUSED_ENV_VARS n \
+        "$BIN" -m 0:1048576 -d rocm > "$TMP"
+    
+    awk -v label="$label" '/^[[:digit:]]/ {
+        printf "%s,%s,%.6f\n", $1, label, $2
+    }' "$TMP" >> "$CSV_FILE"
+    rm "$TMP"
 }
 
 run_dc_none () {
     local label="dc-none"
     echo "Running Device Collectives None..."
-    for ((t=1; t<=TRIALS; t++)); do
-        echo "  Trial $t..."
-        TMP=$(mktemp)
-        mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
-            -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
-            -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
-            -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
-            -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
-            -genv UCX_TLS=sm,self,rocm \
-            -genv UCX_WARN_UNUSED_ENV_VARS n \
-            "$BIN" -m 0:1048576 -i 10000 -d rocm > "$TMP"
+    TMP=$(mktemp)
+    mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
+        -genv LD_LIBRARY_PATH=$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
+        -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
+        -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
+        -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
+        -genv UCX_TLS=sm,self,rocm \
+        -genv UCX_WARN_UNUSED_ENV_VARS n \
+        "$BIN" -m 0:1048576 -d rocm > "$TMP"
 
-        awk -v label="$label" -v trial="$t" '/^[[:digit:]]/ {
-            printf "%s,%s,%d,%.6f\n", $1, label, trial, $2
-        }' "$TMP" >> "$CSV_FILE"
-        rm "$TMP"
-    done
+    awk -v label="$label" '/^[[:digit:]]/ {
+        printf "%s,%s,%.6f\n", $1, label, $2
+    }' "$TMP" >> "$CSV_FILE"
+    rm "$TMP"
 }
 
 run_dc_none
 
-for COMP in 1 2 3 4; do
+for COMP in 1 2 3; do
     run_composition $COMP
 done
 
-echo "All trials completed. Output saved to $CSV_FILE"
+echo "All runs completed. Output saved to $CSV_FILE"
 
 cat <<EOF | $HOME/.local/bin/python3
 import pandas as pd
@@ -115,7 +107,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('Message Size (Bytes)', fontsize=13)
 plt.ylabel('Latency (µs)', fontsize=13)
-plt.title('Allreduce Latency by Composition ($TRIALS Trials)', fontsize=16)
+plt.title('Allreduce Latency by Composition (RCCL for 2 nodes)', fontsize=16)
 
 def sci_notation(x, _):
     if x == 0:

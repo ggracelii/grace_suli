@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Usage: ./trace_comp_mpi_multi.sh
 
-N=1
+N=2
 PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
