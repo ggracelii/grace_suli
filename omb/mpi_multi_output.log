@@ -140,10 +140,10 @@ Entered delta algorithm
     Intra-node leads comm exists
         Calling SHM barrier
 *                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_reduce called
         Calling SHM reduce
-*                       MPIDI_SHM_mpi_reduce called
-*                       MPIDI_SHM_mpi_reduce called
-*                       MPIDI_SHM_mpi_reduce called
 *                       MPIDI_SHM_mpi_reduce called
         Calling SHM barrier on intra_node_leads_comm
 *                       MPIDI_SHM_mpi_barrier called
@@ -155,18 +155,18 @@ Entered delta algorithm
 *                           MPIR_Bcast_impl called
         Reducing data from shm buffers
             Calling local reduce
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_smp called
         Calling NM allreduce
 *                       MPIDI_NM_mpi_allreduce called (UCX)
 *                           MPIR_Allreduce_impl called
 *                       MPIR_Allreduce_intra_smp called
         Calling SHM barrier on node_comm
-*                       MPIDI_SHM_mpi_barrier called*                       MPIDI_NM_mpi_allreduce called (UCX)
-*                           MPIR_Allreduce_impl called
-*                       MPIR_Allreduce_intra_smp called
+*                       MPIDI_SHM_mpi_barrier called
 *                       MPIDI_NM_mpi_allreduce called (UCX)
 *                           MPIR_Allreduce_impl called
 *                       MPIR_Allreduce_intra_smp called
-
 *                       MPIDI_NM_mpi_allreduce called (UCX)
 *                           MPIR_Allreduce_impl called
 *                       MPIR_Allreduce_intra_recursive_doubling called
