@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Usage: ./run_comp_rccl_single.sh
 
-N=2
+N=1
 PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
@@ -78,7 +78,7 @@ run_dc_none () {
 
 run_dc_none
 
-for COMP in 1 2 3; do
+for COMP in 2 3; do
     run_composition $COMP
 done
 

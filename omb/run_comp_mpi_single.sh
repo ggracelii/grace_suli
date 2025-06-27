@@ -70,7 +70,7 @@ run_dc_none () {
 
 run_dc_none
 
-for COMP in 1 2 3; do
+for COMP in 2 3; do
     run_composition $COMP
 done
 

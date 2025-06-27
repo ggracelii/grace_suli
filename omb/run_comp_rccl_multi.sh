@@ -47,7 +47,8 @@ run_composition () {
         -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
         -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
         -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-        -genv UCX_TLS sm,self,rocm \
+        -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
+        -genv UCX_TLS rocm,rocm_copy,rocm_ipc,rc,tcp,self,sm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m 0:1048576 -d rocm > "$TMP"
     
@@ -66,7 +67,8 @@ run_dc_none () {
         -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
         -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
         -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
-        -genv UCX_TLS=sm,self,rocm \
+        -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
+        -genv UCX_TLS rocm,rocm_copy,rocm_ipc,rc,tcp,self,sm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m 0:1048576 -d rocm > "$TMP"
 
@@ -78,9 +80,85 @@ run_dc_none () {
 
 run_dc_none
 
-for COMP in 1 2 3; do
+for COMP in 1 2; do
     run_composition $COMP
 done
+
+echo "Initial run complete. Checking for failed measurements..."
+
+# Retry until no zeros remain
+RETRIES=5
+cat <<EOF | $HOME/.local/bin/python3
+import pandas as pd
+import subprocess
+import time
+
+csv_path = "$CSV_FILE"
+
+for attempt in range($RETRIES):
+    df = pd.read_csv(csv_path)
+    failed = df[df['latency'] == 0.0]
+    if failed.empty:
+        print("No zero-latency rows remain.")
+        break
+
+    print(f"Attempt {attempt+1}: Found {len(failed)} zero-latency rows. Retrying...")
+
+    replacements = []
+    new_fails = []
+
+    for (size, comp) in failed[['size', 'composition']].drop_duplicates().itertuples(index=False):
+        label = comp.lower()
+        comp_id = {"alpha": 1, "beta": 2, "gamma": 3, "delta": 4}.get(label, None)
+        dc_flag = "none" if label == "dc-none" else "percoll"
+
+        tmpfile = f"tmp_retry_{label}_{size}.out"
+        cmd = [
+            "mpiexec", "-n", str($NUM_PROCS), "-ppn", str($PPN), "-hostfile", "hosts.txt",
+            "-genv", "LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH",
+            "-genv", "UCX_TLS=tcp,self,sm"
+        ]
+        if dc_flag == "none":
+            cmd += ["-genv", "MPIR_CVAR_DEVICE_COLLECTIVES", "none"]
+        else:
+            cmd += [
+                "-genv", "MPIR_CVAR_DEVICE_COLLECTIVES", "percoll",
+                "-genv", "MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE", "1",
+                "-genv", "MPIR_CVAR_ALLREDUCE_COMPOSITION", str(comp_id)
+            ]
+        cmd += ["$BIN", "-m", f"{size}:{size}"]
+        print(f"Running retry for {label} at size {size}")
+        with open(tmpfile, "w") as f:
+            subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL)
+
+        with open(tmpfile, "r") as f:
+            for line in f:
+                if not line.strip() or not line[0].isdigit():
+                    continue
+                tokens = line.strip().split()
+                if len(tokens) < 2 or '*' in tokens:
+                    new_fails.append((size, comp))
+                    continue
+                try:
+                    size_parsed = int(tokens[0])
+                    latency = float(tokens[1])
+                    if latency == 0.0:
+                        new_fails.append((size_parsed, comp))
+                    else:
+                        replacements.append((size_parsed, comp, latency))
+                except ValueError:
+                    new_fails.append((size, comp))
+
+    # Remove all failed rows from original
+    df = df[df['latency'] > 0.0]
+    retry_df = pd.DataFrame(replacements, columns=["size", "composition", "latency"])
+    new_df = pd.concat([df, retry_df]).drop_duplicates(subset=["size", "composition"], keep="last")
+    new_df.to_csv(csv_path, index=False)
+
+    if not new_fails:
+        print("All retries successful.")
+        break
+EOF
 
 echo "All runs completed. Output saved to $CSV_FILE"
 

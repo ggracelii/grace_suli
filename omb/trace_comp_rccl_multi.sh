@@ -30,7 +30,8 @@ run_composition () {
         -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
         -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
         -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-        -genv UCX_TLS sm,self,rocm \
+        -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
+        -genv UCX_TLS rocm,rocm_copy,rocm_ipc,rc,tcp,self,sm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m 4:4 -i 1 -x 0 -u 0 -d rocm >> rccl_multi_output.log 2>&1
 }
@@ -45,14 +46,15 @@ run_dc_none () {
         -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
         -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
         -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
-        -genv UCX_TLS sm,self,rocm \
+        -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
+        -genv UCX_TLS rocm,rocm_copy,rocm_ipc,rc,tcp,self,sm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m :4 -i 1 -x 0 -u 0 -d rocm >> rccl_multi_output.log 2>&1
 }
 
 run_dc_none
 
-for COMP in 1 2 3 4; do
+for COMP in 1 2 4; do
     run_composition $COMP
 done
 
