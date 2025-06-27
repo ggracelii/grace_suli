@@ -32,7 +32,7 @@ run_composition () {
         -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
         -genv UCX_TLS sm,self,rocm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
-        "$BIN" -m 4:4 -i 1 -x 0 -d rocm >> rccl_single_output.log 2>&1
+        "$BIN" -m 4:4 -i 1 -x 0 -u 0 -d rocm >> rccl_single_output.log 2>&1
 }
 
 run_dc_none () {
@@ -47,7 +47,7 @@ run_dc_none () {
         -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
         -genv UCX_TLS sm,self,rocm \
         -genv UCX_WARN_UNUSED_ENV_VARS n \
-        "$BIN" -m :4 -i 1 -x 0 -d rocm >> rccl_single_output.log 2>&1
+        "$BIN" -m :4 -i 1 -x 0 -u 0 -d rocm >> rccl_single_output.log 2>&1
 }
 
 run_dc_none

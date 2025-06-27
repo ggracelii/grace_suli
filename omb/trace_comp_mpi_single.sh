@@ -28,8 +28,6 @@ run_composition () {
         -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
         -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
         -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
-        -genv UCX_TLS sm,self,rocm \
-        -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m 4:4 -i 1 -x 0 >> mpi_single_output.log 2>&1
 }
 
@@ -41,8 +39,6 @@ run_dc_none () {
     stdbuf -o0 mpiexec -n $NUM_PROCS -ppn $PPN \
         -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
         -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
-        -genv UCX_TLS sm,self,rocm \
-        -genv UCX_WARN_UNUSED_ENV_VARS n \
         "$BIN" -m 4:4 -i 1 -x 0 >> mpi_single_output.log 2>&1
 
 }

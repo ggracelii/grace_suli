@@ -115,7 +115,7 @@ plt.xscale('log')
 plt.yscale('log')
 plt.xlabel('Message Size (Bytes)', fontsize=13)
 plt.ylabel('Latency (µs)', fontsize=13)
-plt.title('Allreduce Latency by Composition (Avg of 10 Trials)', fontsize=16)
+plt.title('Allreduce Latency by Composition ($TRIALS Trials)', fontsize=16)
 
 def sci_notation(x, _):
     if x == 0:

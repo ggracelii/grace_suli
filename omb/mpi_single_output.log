@@ -11,11 +11,9 @@ Running Composition 1 (alpha)...
 *                       MPIDI_NM_mpi_barrier called (UCX)
 *                           MPIR_Barrier_impl called
 *                       MPIDI_SHM_mpi_bcast called
-Switch statment: MPIR_CVAR_ALLREDUCE_COMPOSITION = 1, running alpha
-    comm->comm_kind == MPIR_COMM_KIND__INTRACOMM = 1
-    is_commutative = 1
    After fallback check for alpha
 Entered alpha algorithm
+    [RCCL] Host buffer fallback enabled
     Node comm exists
         Not in place
             Calling SHM reduce
@@ -58,6 +56,7 @@ Running Composition 2 (beta)...
 *                       MPIDI_SHM_mpi_bcast called
    After fallback check for beta
 Entered beta algorithm
+    [RCCL] Host buffer fallback enabled
     Calling NM allreduce
 *                       MPIDI_NM_mpi_allreduce called (UCX)
 *                           MPIR_Allreduce_impl called
@@ -93,6 +92,7 @@ Running Composition 3 (gamma)...
 *                       MPIDI_SHM_mpi_bcast called
    After fallback check for gamma
 Entered gamma algorithm
+    [RCCL] Host buffer fallback enabled
     Calling SHM allreduce
 *                       MPIDI_SHM_mpi_allreduce called
 *                       MPIR_Allreduce_intra_recursive_doubling called
@@ -127,22 +127,58 @@ Running Composition 4 (delta)...
 *                       MPIDI_SHM_mpi_bcast called
 Switch statment: MPIR_CVAR_ALLREDUCE_COMPOSITION = 4, running delta
     comm->comm_kind == MPIR_COMM_KIND__INTRACOMM = 1
-    count >= num_leads = 1
+    count >= num_leads = 0
     is_commutative = 1
-Fallback: running beta
-Entered beta algorithm
-    Calling NM allreduce
+   After fallback check for delta
+Entered delta algorithm
+    Sub-node comm DNE, creating multi leaders
+*                       MPIR_Allreduce_intra_reduce_scatter_allgather called
+*                       MPIR_Allreduce_intra_reduce_scatter_allgather called
+*                       MPIR_Allreduce_intra_reduce_scatter_allgather called
+    Allocating shared memory buffer
+*                       MPIR_Allreduce_intra_recursive_doubling called
+    Intra-node leads comm exists
+        Calling SHM barrier
+*                       MPIDI_SHM_mpi_barrier called
+        Calling SHM reduce
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_reduce called
+        Calling SHM barrier on intra_node_leads_comm
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_NM_mpi_bcast called (UCX)
+*                           MPIR_Bcast_impl called
+        Reducing data from shm buffers
+            Calling local reduce
+        Calling NM allreduce
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_smp called
+*                       MPIR_Allreduce_intra_smp called
+        Calling SHM barrier on node_comm
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_smp called
 *                       MPIDI_NM_mpi_allreduce called (UCX)
 *                           MPIR_Allreduce_impl called
 *                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIDI_SHM_mpi_barrier called
+*                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIDI_NM_mpi_barrier called (UCX)
 *                           MPIR_Barrier_impl called
 *                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIDI_NM_mpi_reduce called (UCX)
 *                           MPIR_Reduce_impl called
 *                       MPIDI_SHM_mpi_reduce called
-*                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIDI_NM_mpi_reduce called (UCX)
 *                           MPIR_Reduce_impl called
@@ -154,4 +190,3 @@ Entered beta algorithm
 *                       MPIDI_NM_mpi_barrier called (UCX)
 *                           MPIR_Barrier_impl called
 *                       MPIDI_SHM_mpi_bcast called
-*                       MPIR_Allreduce_intra_recursive_doubling called
