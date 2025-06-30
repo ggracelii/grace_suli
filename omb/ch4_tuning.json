@@ -51,7 +51,13 @@
         {
             "comm_size=node_comm_size":
             {
-                "composition=MPIDI_Allreduce_intra_composition_gamma":{}
+                "avg_msg_size<=32768":
+                {
+                    "composition=MPIDI_Allreduce_intra_composition_gamma": {}
+                },
+                "avg_msg_size=any": {
+                    "composition=MPIDI_Allreduce_intra_composition_beta": {}
+                }
             },
             "comm_size=any":
             {
@@ -59,15 +65,12 @@
                 {
                     "is_commutative=yes":
                     {
-                        "avg_msg_size<=2048":
+                        "avg_msg_size<=32768":
                         {
-                            "composition=MPIDI_Allreduce_intra_composition_alpha":{}
+                            "composition=MPIDI_Allreduce_intra_composition_gamma": {}
                         },
-                        "avg_msg_size=any":
-                        {
-                            "composition=MPIDI_Allreduce_intra_composition_ccl":{
-                                "ccl=rccl":{}
-                            }
+                        "avg_msg_size=any": {
+                            "composition=MPIDI_Allreduce_intra_composition_beta": {}
                         }
                     },
                     "is_commutative=no":
@@ -81,7 +84,7 @@
                 }
             }
         }
-    },
+    }, 
     "collective=reduce":
     {
         "comm_type=intra":
