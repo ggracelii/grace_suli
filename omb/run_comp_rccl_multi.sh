@@ -8,7 +8,7 @@ PPN=4
 NUM_PROCS=$((N * PPN))
 BIN="./install/libexec/osu-micro-benchmarks/mpi/collective/osu_allreduce"
 
-CSV_FILE_BASE="data"
+CSV_FILE_BASE="comp_rccl_multi_data"
 CSV_FILE="${CSV_FILE_BASE}.csv"
 i=1
 while [ -f "$CSV_FILE" ]; do
@@ -16,7 +16,7 @@ while [ -f "$CSV_FILE" ]; do
     ((i++))
 done
 
-PLOT_FILE_BASE="graph"
+PLOT_FILE_BASE="comp_rccl_multi_graph"
 PLOT_FILE="${PLOT_FILE_BASE}.png"
 i=1
 while [ -f "$PLOT_FILE" ]; do
