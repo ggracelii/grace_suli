@@ -27,6 +27,7 @@ echo "size,composition,latency" > "$CSV_FILE"
 # RCCL - composition none
 echo "Running rccl composition none (rccl-dc-none)..."
 mpiexec -n $NUM_PROCS -ppn $PPN \
+<<<<<<< HEAD
     -genv LD_LIBRARY_PATH "$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
@@ -34,6 +35,16 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
     -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     -genv UCX_TLS=sm,self,rocm \
+=======
+    -genv LD_LIBRARY_PATH="$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
+    -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
+    -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl \
+    -genv MPIR_CVAR_ALLREDUCE_CCL=rccl \
+    -genv UCX_TLS=sm,self,rocm \
+    -genv UCX_WARN_UNUSED_ENV_VARS=n \
+    -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
+    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
+>>>>>>> 58ea63e6111a3c5d12877a40a4235af412792f17
     "$BIN" -m 0:1048576 -d rocm > tmp_rccl_none.txt
 awk -v label="rccl-dc-none" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
