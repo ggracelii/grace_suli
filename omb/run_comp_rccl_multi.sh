@@ -83,7 +83,7 @@ run_dc_none
 for COMP in 1 2; do
     run_composition $COMP
 done
-
+ 
 echo "Initial run complete. Checking for failed measurements..."
 
 # Retry until no zeros remain
@@ -93,21 +93,44 @@ import pandas as pd
 import subprocess
 import time
 
-csv_path = "$CSV_FILE"
+expected_sizes = [
+    4, 8, 16, 32, 64, 128, 256, 512, 1024,
+    2048, 4096, 8192, 16384, 32768,
+    65536, 131072, 262144, 524288, 1048576
+]
 
-for attempt in range($RETRIES):
-    df = pd.read_csv(csv_path)
-    failed = df[df['latency'] == 0.0]
-    if failed.empty:
-        print("No zero-latency rows remain.")
+expected_compositions = [
+    "dc-none", "alpha", "beta"
+]
+
+csv_file = "$CSV_FILE"
+for attempt in range(5):
+    df = pd.read_csv(csv_file)
+    df['latency'] = pd.to_numeric(df['latency'], errors='coerce')
+
+    failed_rows = df[df['latency'].isnull() | (df['latency'] == 0.0)]
+    failed_keys = set(failed_rows[['size', 'composition']].itertuples(index=False, name=None))
+
+    existing_keys = set(df[['size', 'composition']].itertuples(index=False, name=None))
+    missing_keys = [
+        (size, comp)
+        for size in expected_sizes
+        for comp in expected_compositions
+        if (size, comp) not in existing_keys
+    ]
+
+    failed = list(failed_keys.union(missing_keys))
+
+    if not failed:
+        print("No missing or invalid latency rows remain.")
         break
 
     print(f"Attempt {attempt+1}: Found {len(failed)} zero-latency rows. Retrying...")
 
     replacements = []
     new_fails = []
-
-    for (size, comp) in failed[['size', 'composition']].drop_duplicates().itertuples(index=False):
+    
+    for size, comp in failed:
         label = comp.lower()
         comp_id = {"alpha": 1, "beta": 2, "gamma": 3, "delta": 4}.get(label, None)
         dc_flag = "none" if label == "dc-none" else "percoll"
@@ -149,7 +172,6 @@ for attempt in range($RETRIES):
                 except ValueError:
                     new_fails.append((size, comp))
 
-    # Remove all failed rows from original
     df = df[df['latency'] > 0.0]
     retry_df = pd.DataFrame(replacements, columns=["size", "composition", "latency"])
     new_df = pd.concat([df, retry_df]).drop_duplicates(subset=["size", "composition"], keep="last")

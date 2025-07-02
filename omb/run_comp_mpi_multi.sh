@@ -46,7 +46,7 @@ run_composition () {
         -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
         -genv MPIR_CVAR_ALLREDUCE_COMPOSITION $comp \
         -genv UCX_TLS=tcp,self,sm \
-        "$BIN" -m 0:1048576 > "$TMP"
+        "$BIN" -m 0:1048576 -d rocm > "$TMP"
     
     awk -v label="$label" '/^[[:digit:]]/ {
         printf "%s,%s,%.6f\n", $1, label, $2
@@ -62,7 +62,7 @@ run_dc_none () {
         -genv LD_LIBRARY_PATH=$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH \
         -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
         -genv UCX_TLS=tcp,self,sm \
-        "$BIN" -m 0:1048576 > "$TMP"
+        "$BIN" -m 0:1048576 -d rocm > "$TMP"
 
     awk -v label="$label" '/^[[:digit:]]/ {
         printf "%s,%s,%.6f\n", $1, label, $2
@@ -78,7 +78,6 @@ done
 
 echo "Initial run complete. Checking for failed measurements..."
 
-# Retry until no zeros remain
 RETRIES=5
 cat <<EOF | $HOME/.local/bin/python3
 import pandas as pd
@@ -141,7 +140,6 @@ for attempt in range($RETRIES):
                 except ValueError:
                     new_fails.append((size, comp))
 
-    # Remove all failed rows from original
     df = df[df['latency'] > 0.0]
     retry_df = pd.DataFrame(replacements, columns=["size", "composition", "latency"])
     new_df = pd.concat([df, retry_df]).drop_duplicates(subset=["size", "composition"], keep="last")

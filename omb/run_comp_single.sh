@@ -27,24 +27,12 @@ echo "size,composition,latency" > "$CSV_FILE"
 # RCCL - composition none
 echo "Running rccl composition none (rccl-dc-none)..."
 mpiexec -n $NUM_PROCS -ppn $PPN \
-<<<<<<< HEAD
     -genv LD_LIBRARY_PATH "$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
     -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
     -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     -genv UCX_TLS=sm,self,rocm \
-=======
-    -genv LD_LIBRARY_PATH="$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
-    -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
-    -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM=ccl \
-    -genv MPIR_CVAR_ALLREDUCE_CCL=rccl \
-    -genv UCX_TLS=sm,self,rocm \
-    -genv UCX_WARN_UNUSED_ENV_VARS=n \
-    -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
->>>>>>> 58ea63e6111a3c5d12877a40a4235af412792f17
     "$BIN" -m 0:1048576 -d rocm > tmp_rccl_none.txt
 awk -v label="rccl-dc-none" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
@@ -61,7 +49,6 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
     -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 2 \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     -genv UCX_TLS=sm,self,rocm \
     "$BIN" -m 0:1048576 -d rocm > tmp_rccl_2.txt
 awk -v label="rccl-beta" '/^[[:digit:]]/ {
@@ -79,7 +66,6 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
     -genv MPIR_CVAR_ALLREDUCE_CCL rccl \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 3 \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     -genv UCX_TLS=sm,self,rocm \
     "$BIN" -m 0:1048576 -d rocm > tmp_rccl_3.txt
 awk -v label="rccl-gamma" '/^[[:digit:]]/ {
@@ -93,7 +79,6 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv LD_LIBRARY_PATH "$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK error \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES none \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     "$BIN" -m 0:1048576 -d rocm > tmp_mpi_none.txt
 awk -v label="mpi-dc-none" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
@@ -108,7 +93,6 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
     -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 2 \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     "$BIN" -m 0:1048576 -d rocm > tmp_mpi_2.txt
 awk -v label="mpi-beta" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
@@ -123,7 +107,6 @@ mpiexec -n $NUM_PROCS -ppn $PPN \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES percoll \
     -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE 1 \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 3 \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     "$BIN" -m 0:1048576 -d rocm > tmp_mpi_3.txt
 awk -v label="mpi-gamma" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
@@ -140,10 +123,9 @@ mpiexec -n "$NUM_PROCS" -ppn "$PPN" \
     -genv MPIR_CVAR_ALLREDUCE_INTRA_ALGORITHM ccl \
     -genv MPIR_CVAR_ALLREDUCE_CCL auto \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 0 \
-    -genv MPIR_CVAR_CH4_GPU_COLL_SWAP_BUFFER_SZ 32768 \
     -genv MPIR_CVAR_CH4_COLL_SELECTION_TUNING_JSON_FILE ch4_tuning.json \
     -genv UCX_TLS sm,self,rocm \
-    "$BIN" -m 0:1048576 -d rocm -E -S 32768 > tmp_ch4_tuning.txt
+    "$BIN" -m 0:1048576 -d rocm > tmp_ch4_tuning.txt
 awk -v label="ch4-tuning" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_ch4_tuning.txt >> "$CSV_FILE"
@@ -210,7 +192,7 @@ if "ch4-tuning" in pivot_df.columns:
         color="red"
     )
 
-plt.axvline(x=32768, color='black', linestyle='--', label='threshold = 32768')
+plt.axvline(x=8192, color='black', linestyle='--', label='threshold = 8192')
 
 plt.xscale('log')
 plt.yscale('log')

@@ -51,7 +51,7 @@
         {
             "comm_size=node_comm_size":
             {
-                "avg_msg_size<=32768":
+                "avg_msg_size<=8192":
                 {
                     "composition=MPIDI_Allreduce_intra_composition_gamma": {}
                 },
@@ -67,7 +67,7 @@
                     {
                         "avg_msg_size<=32768":
                         {
-                            "composition=MPIDI_Allreduce_intra_composition_gamma": {}
+                            "composition=MPIDI_Allreduce_intra_composition_alpha": {}
                         },
                         "avg_msg_size=any": {
                             "composition=MPIDI_Allreduce_intra_composition_beta": {}

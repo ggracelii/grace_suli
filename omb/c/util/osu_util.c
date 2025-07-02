@@ -739,8 +739,6 @@ int process_options(int argc, char *argv[])
             break;
     }
 
-    printf("DEBUG: options.optstring = %s\n", options.optstring);
-
     while ((c = getopt_long(argc, argv, options.optstring, long_options,
                             &option_index)) != -1) {
         bad_usage.opt = c;

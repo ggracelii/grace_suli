@@ -29,11 +29,10 @@ echo "size,composition,latency" > "$CSV_FILE"
 # MPI - composition none
 echo "Running mpi composition none (dc-none)..."
 mpiexec -n $NUM_PROCS -ppn $PPN \
-    -genv RUN_MODE=mpi \
     -genv LD_LIBRARY_PATH="$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES=none \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
-    "$BIN" -m 0:1048576 > tmp_mpi_none.txt
+    "$BIN" -m 0:1048576 -d rocm > tmp_mpi_none.txt
 awk -v label="dc-none" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_mpi_none.txt >> "$CSV_FILE"
@@ -42,13 +41,12 @@ rm tmp_mpi_none.txt
 # MPI - composition 2 (beta)
 echo "Running mpi composition 2 (beta)..."
 mpiexec -n $NUM_PROCS -ppn $PPN \
-    -genv RUN_MODE=mpi \
     -genv LD_LIBRARY_PATH="$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES=percoll \
     -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE=1 \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 2 \
-    "$BIN" -m 0:1048576 > tmp_mpi_2.txt
+    "$BIN" -m 0:1048576 -d rocm > tmp_mpi_2.txt
 awk -v label="beta" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_mpi_2.txt >> "$CSV_FILE"
@@ -57,13 +55,12 @@ rm tmp_mpi_2.txt
 # MPI - composition 3 (gamma)
 echo "Running mpi composition 3 (gamma)..."
 mpiexec -n $NUM_PROCS -ppn $PPN \
-    -genv RUN_MODE=mpi \
     -genv LD_LIBRARY_PATH="$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES=percoll \
     -genv MPIR_CVAR_ALLREDUCE_DEVICE_COLLECTIVE=1 \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION 3 \
-    "$BIN" -m 0:1048576 > tmp_mpi_3.txt
+    "$BIN" -m 0:1048576 -d rocm > tmp_mpi_3.txt
 awk -v label="gamma" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_mpi_3.txt >> "$CSV_FILE"

@@ -1,0 +1,450 @@
+
+
+Running rccl composition none (rccl-dc-none)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
+[RCCL Check] All requirements met. Using RCCL.
+>> MPIR_Allreduce_intra_ccl: Using RCCL backend
+
+
+Running rccl composition 2 (rccl-beta)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Entered beta algorithm
+    Not allocating host buffers - beta with size: 4
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
+[RCCL Check] All requirements met. Using RCCL.
+>> MPIR_Allreduce_intra_ccl: Using RCCL backend
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+Running rccl composition 3 (rccl-gamma)...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Entered gamma algorithm
+    Not allocating host buffers - gamma with size: 4
+*                       MPIDI_SHM_mpi_allreduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
+[RCCL Check] All requirements met. Using RCCL.
+>> MPIR_Allreduce_intra_ccl: Using RCCL backend
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+Running mpi composition none (mpi-dc-none)...
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIR_Allreduce_intra_recursive_doubling called
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+
+
+Running mpi composition 2 (mpi-beta)...
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Entered beta algorithm
+    Not allocating host buffers - beta with size: 4
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+*                       MPIDI_SHM_mpi_barrier called
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+Running mpi composition 2 (mpi-beta)...
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Entered gamma algorithm
+    Not allocating host buffers - gamma with size: 4
+*                       MPIDI_SHM_mpi_allreduce called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+HIP Error (yaksuri_hipi_pack_int32_t:../../../../../../src/mpi/datatype/typerep/yaksa/src/backend/hip/pup/yaksuri_hipi_pup_int32_t.hip,417): invalid device function
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+Running ch4 tuning composition (ch4-tuning) for small msg...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Switch statment: MPIR_CVAR_ALLREDUCE_COMPOSITION = 0, running json
+Entered gamma algorithm
+    Not allocating host buffers - gamma with size: 4
+*                       MPIDI_SHM_mpi_allreduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
+[RCCL Check] All requirements met. Using RCCL.
+>> MPIR_Allreduce_intra_ccl: Using RCCL backend
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+
+Running ch4 tuning composition (ch4-tuning) for large msg...
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_SHM_mpi_barrier called
+! Allocating host arrays
+! Allocating HIP buffer
+! Allocating host arrays
+! Allocating HIP buffer
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+Switch statment: MPIR_CVAR_ALLREDUCE_COMPOSITION = 0, running json
+Entered beta algorithm
+    Not allocating host buffers - beta with size: 65536
+*                       MPIDI_NM_mpi_allreduce called (UCX)
+*                           MPIR_Allreduce_impl called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
+[RCCL Check] All requirements met. Using RCCL.
+>> MPIR_Allreduce_intra_ccl: Using RCCL backend
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_NM_mpi_reduce called (UCX)
+*                           MPIR_Reduce_impl called
+*                       MPIDI_SHM_mpi_reduce called
+*                       MPIDI_SHM_mpi_barrier called
+*                       MPIDI_NM_mpi_barrier called (UCX)
+*                           MPIR_Barrier_impl called
+*                       MPIDI_SHM_mpi_bcast called
+*                       MPIR_Allreduce_intra_ccl called
+[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called

@@ -1,2 +1,2 @@
-amdgpu00
-amdgpu01
+amdgpu02
+amdgpu03
