@@ -164,11 +164,11 @@ ordered_comps = [
 
 color_map = {
     "mpi-dc-none": "blue",
-    "mpi-beta": "green",
-    "mpi-gamma": "orange",
+    "mpi-beta": "orange",
+    "mpi-gamma": "green",
     "rccl-dc-none": "brown",
-    "rccl-beta": "purple",
-    "rccl-gamma": "pink"
+    "rccl-beta": "pink",
+    "rccl-gamma": "purple"
 }
 
 for comp in ordered_comps:

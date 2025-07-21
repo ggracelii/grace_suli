@@ -55,7 +55,8 @@
                 {
                     "composition=MPIDI_Allreduce_intra_composition_gamma": {}
                 },
-                "avg_msg_size=any": {
+                "avg_msg_size=any": 
+                {
                     "composition=MPIDI_Allreduce_intra_composition_beta": {}
                 }
             },
