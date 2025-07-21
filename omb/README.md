@@ -73,6 +73,8 @@ The `run_comp_*` and `trace_comp_*` scripts run all composition algorithms—`al
 - The run scripts are configured for 10 trials by default with 10,000 iterations for message sizes varying from 0 to 1048576 bytes. These scripts output a CSV of results and generate a corresponding plot.
 - The trace scripts run each algorithm once with 1 iteration for a set message size (4 bytes). The output tracing the execution paths are saved to a log.
 
+For my final graphs, I used `run_comp_single.sh` and `run_comp_multi.sh`.
+
 ### JSON Tuning Files
 These are MPICH tuning configuration files that influence backend switching logic. They are being customized to improve automatic behavior:
 - `test.json`
