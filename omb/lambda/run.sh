@@ -56,9 +56,9 @@ mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
     -genv UCX_WARN_UNUSED_ENV_VARS=n \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION=2 \
-    "$BIN" -m 0:1048576 -d rocm > tmp_rccl.txt 2>&1
+    "$BIN" -m 0:67108864 -d rocm > tmp_rccl.txt 2>&1
 
-awk -v label="1comm4chunks" '/^[[:digit:]]/ {
+awk -v label="1comm4streams" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_rccl.txt >> "$CSV_FILE"
 
