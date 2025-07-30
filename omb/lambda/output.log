@@ -3,33 +3,14 @@
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
 >> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
 *                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
 
 # OSU MPI-ROCM Allreduce Latency Test v7.5
 # Datatype: MPI_INT.
 # Size       Avg Latency(us)
-Entered beta pipelined allreduce with hardcoded 4 subcomms
-    Not allocating host buffers - beta with size: 131072
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-  Launching chunk 1, count=32768 on subcomm[0] out of max_chunks=1
 *                       MPIR_Allreduce_intra_ccl called
 [RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
 [RCCL Check] All requirements met. Using RCCL.
@@ -54,10 +35,14 @@ Entered beta pipelined allreduce with hardcoded 4 subcomms
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
 >> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
 *                       MPIR_Allreduce_intra_recursive_doubling called
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
+*                       MPIR_Allreduce_intra_ccl called
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
+*                       MPIR_Allreduce_intra_ccl called
+>> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
+>> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
+*                       MPIR_Allreduce_intra_recursive_doubling called
 *                       MPIR_Allreduce_intra_ccl called
 [RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
@@ -68,172 +53,13 @@ RCCL AllReduce: Processing chunk 4/4 (count=8192)
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
 >> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
 *                       MPIR_Allreduce_intra_recursive_doubling called
-131072              74221.29
+16                 431245.42
 *                       MPIR_Allreduce_intra_ccl called
 [RCCL Check] op_supported=0, dtype_supported=1, buffers_on_gpu=0
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
 >> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
 *                       MPIR_Allreduce_intra_recursive_doubling called
-Entered beta pipelined allreduce with hardcoded 4 subcomms
-    Not allocating host buffers - beta with size: 262144
-  Launching chunk 1, count=32768 on subcomm[0] out of max_chunks=2
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
-[RCCL Check] All requirements met. Using RCCL.
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-  Launching chunk 2, count=32768 on subcomm[1] out of max_chunks=2
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
 *                       MPIR_Allreduce_intra_ccl called
 >> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
 >> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
 *                       MPIR_Allreduce_intra_recursive_doubling called
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-262144              71214.62
-Entered beta pipelined allreduce with hardcoded 4 subcomms
-  Launching chunk 2, count=32768 on subcomm[1] out of max_chunks=4
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend    Not allocating host buffers - beta with size: 524288
-  Launching chunk 1, count=32768 on subcomm[0] out of max_chunks=4
-*                       MPIR_Allreduce_intra_ccl called
-
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-  Launching chunk 3, count=32768 on subcomm[2] out of max_chunks=4
-*                       MPIR_Allreduce_intra_ccl called
-  Launching chunk 4, count=32768 on subcomm[3] out of max_chunks=4
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
-[RCCL Check] All requirements met. Using RCCL.
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: RCCL requirements not met, falling back
->> MPIR_Allreduce_intra_ccl: Using fallback (recursive doubling)
-*                       MPIR_Allreduce_intra_recursive_doubling called
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-524288             146931.74
-Entered beta pipelined allreduce with hardcoded 4 subcomms
-    Not allocating host buffers - beta with size: 1048576
-  Launching chunk 1, count=32768 on subcomm[0] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
-[RCCL Check] All requirements met. Using RCCL.
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-  Launching chunk 2, count=32768 on subcomm[1] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-  Launching chunk 3, count=32768 on subcomm[2] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-  Launching chunk 4, count=32768 on subcomm[3] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-  Launching chunk 7, count=32768 on subcomm[2] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-  Launching chunk 8, count=32768 on subcomm[3] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-  Launching chunk 6, count=32768 on subcomm[1] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-  Launching chunk 5, count=32768 on subcomm[0] out of max_chunks=8
-*                       MPIR_Allreduce_intra_ccl called
-[RCCL Check] op_supported=1, dtype_supported=1, buffers_on_gpu=1
-[RCCL Check] All requirements met. Using RCCL.
->> MPIR_Allreduce_intra_ccl: Using RCCL backend
-RCCL AllReduce: Processing chunk 1/4 (count=8192)
-RCCL AllReduce: Processing chunk 2/4 (count=8192)
-RCCL AllReduce: Processing chunk 3/4 (count=8192)
-RCCL AllReduce: Processing chunk 4/4 (count=8192)
-1048576               231.06
