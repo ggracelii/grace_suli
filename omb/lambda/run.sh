@@ -46,6 +46,7 @@ echo "size,composition,latency" > "$CSV_FILE"
 #     rm tmp_rccl_${SUBCOMM}.txt
 # done
 
+
 mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
     -genv LD_LIBRARY_PATH="$HOME/rccl/build/lib:/soft/compilers/rocm/rocm-6.3.2/lib:/soft/compilers/rocm/rocm-6.3.2/lib64:$HOME/grace_mpich/build/install/lib:$LD_LIBRARY_PATH" \
     -genv MPIR_CVAR_DEVICE_COLLECTIVES=percoll \
@@ -56,15 +57,41 @@ mpiexec -n $NUM_PROCS -ppn $PPN -hostfile hosts.txt \
     -genv UCX_WARN_UNUSED_ENV_VARS=n \
     -genv MPIR_CVAR_COLLECTIVE_FALLBACK=error \
     -genv MPIR_CVAR_ALLREDUCE_COMPOSITION=2 \
-    "$BIN" -m 0:67108864 -d rocm > tmp_rccl.txt 2>&1
+    "$BIN" -m 0:536870912 -d rocm > tmp_rccl.txt 2>&1
 
-awk -v label="1comm4streams" '/^[[:digit:]]/ {
+awk -v label="ogbeta" '/^[[:digit:]]/ {
     printf "%s,%s,%.6f\n", $1, label, $2
 }' tmp_rccl.txt >> "$CSV_FILE"
 
 echo "Data saved to $CSV_FILE"
 
 cat <<EOF | $HOME/.local/bin/python3
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# # === Load CSV ===
+# df = pd.read_csv("og_beta.csv")
+# df['size'] = pd.to_numeric(df['size'], errors='coerce')
+# df['latency'] = pd.to_numeric(df['latency'], errors='coerce')
+# df = df.dropna(subset=['size', 'latency'])
+# df = df[df['latency'] > 0]
+
+# # === Group and average ===
+# avg_df = df.groupby('size')['latency'].mean().reset_index()
+
+# # === Plot ===
+# fig, ax = plt.subplots()
+# ax.plot(avg_df['size'], avg_df['latency'], label="OG Beta", marker='o')
+# ax.set_xscale('log')
+# ax.set_yscale('log')
+# ax.set_xlabel("Message Size (Bytes)")
+# ax.set_ylabel("Latency (μs)")
+# ax.set_title("OG Beta Allreduce Latency")
+# ax.legend()  # ✅ Fixes the warning
+# plt.tight_layout()
+# plt.savefig("graph.png")
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
