@@ -2,15 +2,20 @@
 
 This directory automates building, running, and plotting results for the OSU Allreduce latency benchmark across MPI and RCCL backends.
 
+### Subdirectory `lambda `
+This subdirectory contains the code, run scripts, and results for the stream-parallel Allreduce implementation (multi-stream and multi-communicator). Run these with the `lambda` branch of `grace_mpich`.
+
 ## Scripts Overview
 ### `build.sh`
 Compiles the OSU Micro-Benchmarks by running `./configure` with appropriate flags, then building the benchmark using `make`.
+
 **Usage:**
 ```bash
 ./build.sh
 ```
 ### `run.sh`
 Runs a single instance of the Allreduce benchmark with the specified backend and number of nodes.
+
 **Usage:**
 ```bash
 ./run.sh <mpich|mpichccl|rccl|auto> <1|2>
