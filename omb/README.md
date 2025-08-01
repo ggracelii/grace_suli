@@ -2,8 +2,10 @@
 
 This directory automates building, running, and plotting results for the OSU Allreduce latency benchmark across MPI and RCCL backends.
 
-### Subdirectory `lambda `
+### Subdirectory `lambda`
 This subdirectory contains the code, run scripts, and results for the stream-parallel Allreduce implementation (multi-stream and multi-communicator). Run these with the `lambda` branch of `grace_mpich`.
+
+The other subdirs (`c`, `java`, `python`, `maint`) should be left alone.
 
 ## Scripts Overview
 ### `build.sh`
