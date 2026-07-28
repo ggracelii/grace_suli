@@ -1,0 +1,6 @@
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+RCCL version 2.20.5+hip6.2 HEAD:612add2+
+[2026-07-09T16:35:09.035] error: *** STEP 4964144.0 ON frontier00001 CANCELLED AT 2026-07-09T16:35:09 DUE TO TIME LIMIT ***

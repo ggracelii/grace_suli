@@ -1,0 +1,7 @@
+=== kernel0 : MPICH_GPU_ALLREDUCE_USE_KERNEL=0 ===
+srun: Step created for StepId=4948927.3
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+8388608              7823.55           7761.39           7861.87          20

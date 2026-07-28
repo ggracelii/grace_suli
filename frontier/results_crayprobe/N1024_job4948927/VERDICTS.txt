@@ -1,0 +1,6 @@
+[probe] default : FAULTED
+[probe] ipc0 : FAULTED
+[probe] staging0 : FAULTED
+[probe] kernel0 : SURVIVED
+[probe] kernel1 : FAULTED
+[probe] noasynccopy : FAULTED

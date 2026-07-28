@@ -1,0 +1,6 @@
+=== C_mpich_rccl per-size : N=8192 ranks=65536 (4GiB->1KiB, i=50) ===
+# --- size=4294967296 start=2026-07-21T21:45:36Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations

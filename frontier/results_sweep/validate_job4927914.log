@@ -1,0 +1,374 @@
+=== B_mpich_dev (bytes=1024 --int) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = INT, 1024 bytes/rank):
+   Min Time: 0.142106 ms
+   Max Time: 0.200066 ms
+   Avg Time: 0.175572 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1024 --int) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = INT, 1024 bytes/rank):
+   Min Time: 0.095394 ms
+   Max Time: 0.142426 ms
+   Avg Time: 0.119727 ms
+  PASS C_mpich_rccl
+=== B_mpich_dev (bytes=1024 --float) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = FLOAT, 1024 bytes/rank):
+   Min Time: 0.151514 ms
+   Max Time: 0.234233 ms
+   Avg Time: 0.194014 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1024 --float) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = FLOAT, 1024 bytes/rank):
+   Min Time: 0.114472 ms
+   Max Time: 0.168566 ms
+   Avg Time: 0.143911 ms
+  PASS C_mpich_rccl
+=== B_mpich_dev (bytes=1024 --double) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = DOUBLE, 1024 bytes/rank):
+   Min Time: 0.130092 ms
+   Max Time: 0.212021 ms
+   Avg Time: 0.171629 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1024 --double) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = DOUBLE, 1024 bytes/rank):
+   Min Time: 0.086698 ms
+   Max Time: 0.152064 ms
+   Avg Time: 0.111278 ms
+  PASS C_mpich_rccl
+=== B_mpich_dev (bytes=1048576 --int) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = INT, 1048576 bytes/rank):
+   Min Time: 2.579482 ms
+   Max Time: 2.633119 ms
+   Avg Time: 2.609915 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1048576 --int) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = INT, 1048576 bytes/rank):
+   Min Time: 1.563161 ms
+   Max Time: 1.783178 ms
+   Avg Time: 1.708622 ms
+  PASS C_mpich_rccl
+=== B_mpich_dev (bytes=1048576 --float) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = FLOAT, 1048576 bytes/rank):
+   Min Time: 2.693125 ms
+   Max Time: 2.769611 ms
+   Avg Time: 2.729877 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1048576 --float) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = FLOAT, 1048576 bytes/rank):
+   Min Time: 1.469369 ms
+   Max Time: 1.650911 ms
+   Avg Time: 1.571950 ms
+  PASS C_mpich_rccl
+=== B_mpich_dev (bytes=1048576 --double) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = DOUBLE, 1048576 bytes/rank):
+   Min Time: 2.044602 ms
+   Max Time: 2.100593 ms
+   Avg Time: 2.077218 ms
+  PASS B_mpich_dev
+=== C_mpich_rccl (bytes=1048576 --double) ===
+
+Validation passed. All values are correct across all 16 ranks.
+
+MPI Allreduce Timing Summary (type = DOUBLE, 1048576 bytes/rank):
+   Min Time: 1.686270 ms
+   Max Time: 1.788296 ms
+   Avg Time: 1.738653 ms
+  PASS C_mpich_rccl
+=== corruption self-test (expect 'Validation failed') ===
+Rank 0: Corruption injected at sendbuf[50238]
+Rank 2: Corruption injected at sendbuf[61820]
+Rank 8: Corruption injected at sendbuf[98572]
+Rank 3: Corruption injected at sendbuf[210465]
+Rank 9: Corruption injected at sendbuf[222771]
+Rank 4: Corruption injected at sendbuf[60566]
+Rank 10: Corruption injected at sendbuf[117698]
+Rank 5: Corruption injected at sendbuf[57486]
+Rank 12: Corruption injected at sendbuf[196022]
+Rank 6: Corruption injected at sendbuf[43170]
+Rank 13: Corruption injected at sendbuf[26607]
+Rank 7: Corruption injected at sendbuf[129795]
+Rank 14: Corruption injected at sendbuf[178859]
+All corruption injections completed.
+
+Rank 15: Corruption injected at sendbuf[196835]
+Rank 11: Corruption injected at sendbuf[187550]
+Rank 2: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 2: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 2: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 10: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 10: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 10: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 10: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 10: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 10: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 3: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 3: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 3: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 3: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 11: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 11: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 11: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 11: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 11: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 11: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 6: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 6: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 6: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 6: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 6: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 6: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 14: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 14: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 14: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 14: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 14: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 14: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 7: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 7: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 7: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 7: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 7: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 7: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 8: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 0: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 0: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 0: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 0: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 0: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 0: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 9: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 9: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 1: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 1: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 1: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 1: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 1: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 10: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 10: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 10: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 2: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 2: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 2: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 2: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 2: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 2: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 11: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 3: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 3: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 3: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 3: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 12: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 12: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 12: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 12: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 12: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 12: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 4: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 4: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 4: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 4: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 4: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 4: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 13: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 13: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 13: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 13: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 13: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 13: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 13: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 5: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 5: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 5: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 5: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 5: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 5: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 5: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 15: Expected output for message[26607] is 120.00. Actual output is 1106.00
+Rank 15: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 15: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 15: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 15: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 15: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 15: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 6: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 6: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 6: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 8: Expected output for message[43170] is 120.00. Actual output is 1113.00
+Rank 8: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 8: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 8: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 8: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 9: Expected output for message[50238] is 120.00. Actual output is 1119.00
+Rank 9: Expected output for message[57486] is 120.00. Actual output is 1114.00
+Rank 9: Expected output for message[60566] is 120.00. Actual output is 1115.00
+Rank 9: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 0: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 0: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 0: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 11: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 11: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 1: Expected output for message[61820] is 120.00. Actual output is 1117.00
+Rank 1: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 1: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 12: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 12: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 12: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 2: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 2: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 2: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 2: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 14: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 14: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 14: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 3: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 3: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 3: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 8: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 8: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 4: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 4: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 4: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 9: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 9: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 9: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 5: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 5: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 5: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 10: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 10: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 10: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 10: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 10: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 10: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 7: Expected output for message[98572] is 120.00. Actual output is 1111.00
+Rank 7: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 7: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 7: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 7: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 7: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 7: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 13: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 13: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 13: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 0: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 0: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 0: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 15: Expected output for message[117698] is 120.00. Actual output is 1109.00
+Rank 15: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 15: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 1: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 1: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 1: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 8: Expected output for message[129795] is 120.00. Actual output is 1112.00
+Rank 2: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 2: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 12: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 12: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 3: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 3: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 3: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 3: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 13: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 13: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 13: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 4: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 4: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 4: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 4: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 4: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 4: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 14: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 14: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 14: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 14: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 14: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 5: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 5: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 5: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 5: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 5: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 15: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 15: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 15: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 15: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 6: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 6: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 6: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 6: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 6: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 6: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 8: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 7: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 7: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 9: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 9: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 0: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 0: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 0: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 11: Expected output for message[178859] is 120.00. Actual output is 1105.00
+Rank 11: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 11: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 11: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 1: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 1: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 1: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 1: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 12: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 12: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 12: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 12: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 13: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 13: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 14: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 8: Expected output for message[187550] is 120.00. Actual output is 1108.00
+Rank 8: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 8: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 8: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 8: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 9: Expected output for message[196022] is 120.00. Actual output is 1107.00
+Rank 9: Expected output for message[196835] is 120.00. Actual output is 1104.00
+Rank 9: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 9: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 11: Expected output for message[210465] is 120.00. Actual output is 1116.00
+Rank 11: Expected output for message[222771] is 120.00. Actual output is 1110.00
+Rank 15: Expected output for message[222771] is 120.00. Actual output is 1110.00
+
+Validation failed. Total errors across all ranks: 240
+
+MPI Allreduce Timing Summary (type = FLOAT, 1048576 bytes/rank):
+   Min Time: 1.572870 ms
+   Max Time: 1.714594 ms
+   Avg Time: 1.660945 ms
+  PASS checker-detects-corruption

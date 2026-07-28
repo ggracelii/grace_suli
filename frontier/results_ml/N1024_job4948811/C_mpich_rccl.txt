@@ -1,0 +1,6 @@
+### model=bert_large_fp32 bytes=1360000000 N=1024
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+[2026-07-06T18:35:03.043] error: *** STEP 4948811.1 ON frontier00085 CANCELLED AT 2026-07-06T18:35:03 DUE TO TIME LIMIT ***
