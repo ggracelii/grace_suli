@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -A csc678
 #SBATCH -J cray-blk128
-#SBATCH -t 00:25:00
+#SBATCH -t 00:05:00
 #SBATCH --network=single_node_vni
 #SBATCH -o %x-%j.out
 #
