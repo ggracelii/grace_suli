@@ -1,0 +1,34 @@
+=== C_mpich_rccl per-size : N=8192 ranks=65536 (4GiB->1KiB, i=50) ===
+# --- size=33554432 start=2026-07-30T00:11:31Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+33554432             8867.29           8564.23           9376.39          50
+# --- size=33554432 done=2026-07-30T00:13:52Z ---
+# --- size=16777216 start=2026-07-30T00:13:52Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+16777216             6306.73           5793.51           6595.72          50
+# --- size=16777216 done=2026-07-30T00:16:12Z ---
+# --- size=8388608 start=2026-07-30T00:16:12Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+8388608              4537.93           4288.22           4714.71          50
+# --- size=8388608 done=2026-07-30T00:18:31Z ---
+# --- size=4194304 start=2026-07-30T00:18:31Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
+4194304              3800.38           3661.44           3881.58          50
+# --- size=4194304 done=2026-07-30T00:20:49Z ---
+# --- size=2097152 start=2026-07-30T00:20:49Z ---
+
+# OSU MPI-ROCM Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)   Min Latency(us)   Max Latency(us)  Iterations
