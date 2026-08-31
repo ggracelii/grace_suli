@@ -1,0 +1,63 @@
+--- /tmp/osu_pristine/osu-micro-benchmarks-7.5/./c/util/osu_util_mpi.h	2024-11-01 16:07:46.000000000 -0400
++++ /lustre/orion/csc678/scratch/graceli/rccl-frontier/osu-mine/osu-micro-benchmarks-7.5/./c/util/osu_util_mpi.h	2026-07-06 14:47:51.000000000 -0400
+@@ -103,9 +103,9 @@
+ void print_only_header(int rank);
+ void print_preamble_nbc(int rank);
+ void print_only_header_nbc(int rank);
+-void print_stats(int rank, int size, double avg, double min, double max,
++void print_stats(int rank, size_t size, double avg, double min, double max,
+                  struct omb_stat_t omb_stats);
+-void print_stats_validate(int rank, int size, double avg, double min,
++void print_stats_validate(int rank, size_t size, double avg, double min,
+                           double max, int errors, struct omb_stat_t omb_stats);
+ void print_stats_nbc(int rank, int size, double ovrl, double cpu,
+                      double avg_comm, double min_comm, double max_comm,
+--- /tmp/osu_pristine/osu-micro-benchmarks-7.5/./c/util/osu_util_mpi.c	2024-11-01 16:07:46.000000000 -0400
++++ /lustre/orion/csc678/scratch/graceli/rccl-frontier/osu-mine/osu-micro-benchmarks-7.5/./c/util/osu_util_mpi.c	2026-07-06 14:48:52.000000000 -0400
+@@ -887,7 +887,7 @@
+     fflush(stdout);
+ }
+ 
+-void print_stats(int rank, int size, double avg_time, double min_time,
++void print_stats(int rank, size_t size, double avg_time, double min_time,
+                  double max_time, struct omb_stat_t omb_stats)
+ {
+     int itr = 0;
+@@ -897,7 +897,7 @@
+     }
+ 
+     if (options.show_size) {
+-        fprintf(stdout, "%-*d", 10, size);
++        fprintf(stdout, "%-*zu", 10, size);
+         fprintf(stdout, "%*.*f", FIELD_WIDTH, FLOAT_PRECISION, avg_time);
+     } else {
+         fprintf(stdout, "%*.*f", 17, FLOAT_PRECISION, avg_time);
+@@ -923,7 +923,7 @@
+     fflush(stdout);
+ }
+ 
+-void print_stats_validate(int rank, int size, double avg_time, double min_time,
++void print_stats_validate(int rank, size_t size, double avg_time, double min_time,
+                           double max_time, int errors,
+                           struct omb_stat_t omb_stats)
+ {
+@@ -934,7 +934,7 @@
+     }
+ 
+     if (options.show_size) {
+-        fprintf(stdout, "%-*d", 10, size);
++        fprintf(stdout, "%-*zu", 10, size);
+         fprintf(stdout, "%*.*f", FIELD_WIDTH, FLOAT_PRECISION, avg_time);
+     } else {
+         fprintf(stdout, "%*.*f", 17, FLOAT_PRECISION, avg_time);
+--- /tmp/osu_pristine/osu-micro-benchmarks-7.5/./c/mpi/collective/blocking/osu_allreduce.c	2024-11-01 16:07:46.000000000 -0400
++++ /lustre/orion/csc678/scratch/graceli/rccl-frontier/osu-mine/osu-micro-benchmarks-7.5/./c/mpi/collective/blocking/osu_allreduce.c	2026-07-06 14:46:44.000000000 -0400
+@@ -12,7 +12,7 @@
+ 
+ int main(int argc, char *argv[])
+ {
+-    int i, j, numprocs, rank, size;
++    int i, j, numprocs, rank; size_t size;
+     double latency = 0.0, t_start = 0.0, t_stop = 0.0;
+     double timer = 0.0;
+     double avg_time = 0.0, max_time = 0.0, min_time = 0.0;

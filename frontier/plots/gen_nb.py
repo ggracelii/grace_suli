@@ -482,7 +482,7 @@ def plot_ml_sync(baseline=None, source="exact"):
     finish(fig)
     return df''')
 
-code('''plot_latency_vs_size(32)          # node count: 1, 2, 4, 8, ... 1024, 2048, 4096''')
+code('''plot_latency_vs_size(1024)          # node count: 1, 2, 4, 8, ... 1024, 2048, 4096''')
 
 code('''plot_speedup_vs_size("T")        # baseline: "D"=Cray, "B"=MPICH (device)''')
 
@@ -494,6 +494,52 @@ code('''# ML gradient-sync (2 plots). solid=RCCL, dashed=Cray (both circles); li
 df_ml = plot_ml_sync(source="exact")   # (1) exact model sizes (results_ml)
 # plot_ml_sync("D", source="near")             # (2) nearest power-of-2 estimate (main sweep)
 df_ml.round(3)''')
+
+code('''# === Layperson headline: BERT-Large sync time vs machine scale ==============
+# For slides/editorial -- no HPC background needed. Time to combine one full-
+# precision BERT-Large gradient (1.36 GB, one all-reduce per training step)
+# as the run grows from 8 GPUs to 65,536 (8,192 Frontier nodes). Two lines:
+# the vendor-tuned library vs this work, speedup at full scale as the hero
+# number. Pulls data_ml (exact model sizes) like plot_ml_sync. x axis is GPUs
+# (= nodes x 8), the number a lay reader can picture. Linear y: flat-is-good.
+# Saves headline_bert.svg next to the notebook (text as vector paths).
+def plot_headline(size=1360000000, save="headline_bert.svg"):
+    cfgs = [("T", "Frontier's vendor-tuned\\nlibrary"),
+            ("C", "MPICH + integrated\\nGPU backend")]
+    d = {c: data_ml[(data_ml.config == c) & (data_ml["size"] == size)].sort_values("nodes")
+         for c, _ in cfgs}
+    if any(len(v) == 0 for v in d.values()):
+        print(f"plot_headline: missing T/C ML data at size={size}"); return
+    fig, ax = plt.subplots(figsize=(12, 6))
+    for c, lab in cfgs:
+        gpus, ms = d[c].nodes.values * 8, d[c].avg.values / 1000.0
+        ax.plot(gpus, ms, marker="o", ls="-", lw=2.5, ms=7, color=STYLE[c]["color"])
+        ax.annotate(lab, xy=(gpus[-1], ms[-1]), xytext=(12, 0), textcoords="offset points",
+                    va="center", ha="left", fontsize=15, color="#222222")
+    tg, tc = d["T"].iloc[-1], d["C"].iloc[-1]
+    ax.annotate("", xy=(tg.nodes * 8 * 1.06, tg.avg / 1000.0),
+                xytext=(tc.nodes * 8 * 1.06, tc.avg / 1000.0),
+                arrowprops=dict(arrowstyle="<->", color=SPEEDUP_COLOR, lw=2))
+    ax.annotate(f"{tg.avg / tc.avg:.1f}× faster\\nat 65,536 GPUs", va="center", ha="right",
+                xy=(tg.nodes * 8 * 0.9, (tg.avg + tc.avg) / 2000.0),
+                fontsize=22, fontweight="bold", color=SPEEDUP_COLOR)
+    ax.set_xscale("log", base=2)
+    ax.set_xticks([8, 64, 512, 4096, 32768])
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{int(x):,}"))
+    ax.set_xlim(6, 8 * 8192 * 6)          # right margin carries the line-end labels
+    ax.set_ylim(0, max(d["T"].avg.max(), d["C"].avg.max()) / 1000.0 * 1.15)
+    ax.set_xlabel("number of GPUs working together (log scale)")
+    ylabel2(ax, "time to sync one update (ms)", "lower is better", "left")
+    ax.set_title("Syncing one AI-model (1.36GB BERT-Large) update across Frontier", pad=16)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.grid(True, axis="y", color="#e6e6e6", lw=1); ax.set_axisbelow(True)
+    fig.patch.set_facecolor("white"); fig.tight_layout()
+    if save:
+        fig.savefig(save, bbox_inches="tight")
+        print(f"saved -> {save}")
+    plt.show()
+
+plot_headline()''')
 
 nb={"cells":[],"metadata":{"kernelspec":{"display_name":"Python 3","language":"python","name":"python3"},"language_info":{"name":"python"}},"nbformat":4,"nbformat_minor":5}
 for i,(t,s) in enumerate(cells):
