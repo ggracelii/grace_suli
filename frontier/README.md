@@ -29,14 +29,25 @@ frontier/
 │   ├── NOTES.md            # build recipe, full fix chronology, findings (methods notes)
 │   └── ML_EXPERIMENT.md    # ML gradient-sync experiment design
 ├── plots/
-│   └── plot.ipynb          # parses results/ → latency / speedup / scaling / crossover plots
+│   └── plot.ipynb          # parses results_sweep/ + results_ml/ + results_crayblk128/ ->
+│                           # latency / speedup / scaling / crossover / layperson headline plots
 ├── out/                    # captured job stdout logs (*.out)
-└── results/
-    ├── sweep/              # committed sweep data: N<nodes>_job<id>/{A..E}_*.txt
-    └── confirm_*/          # mechanism-confirmation evidence
+├── archive/                # preservation tarballs (final text/non-text/joblogs) + retired job logs
+└── results_*/              # committed data, one dir per campaign:
+    ├── results_sweep/          # main A/B/C sweep, N<nodes>_job<id>/{A,B,C}_*.txt (1-8192 nodes)
+    ├── results_ml/              # exact ML gradient sizes (config C + D), 1-8192 nodes
+    ├── results_crayblk128/      # Cray MPICH BLK=128MB — THE plotted Cray line (config T), 1-8192
+    ├── results_crayblk64/       # retired BLK=64MB ladder (faults >32 MiB at 8192) — evidence only
+    ├── results_crayknob/        # Cray kernel-off workaround (config K)
+    ├── results_crayprobe*/      # BLK-size fault-ceiling probes (VERDICTS.txt)
+    ├── results_csel*/           # CSEL auto-tuning JSON dumps
+    ├── results_hybrid*/         # hybrid CH4/MPIR tuning JSON dumps
+    ├── results_rccldiag/        # NCCL_DEBUG mechanism-confirmation logs
+    ├── results_smallalg/        # small-message algorithm probe
+    └── results_1gib_archive/    # early runs incl. one-off rccl-tests (config E) N=1 sample
 ```
 
-## The five configs (sweep 0 B → 1 GiB)
+## The configs (sweep 4 B → 4 GiB, OSU patched to `size_t` sizes — see `build/osu_4gib_sizet.patch`)
 | ID | What | Selected by |
 |----|------|-------------|
 | A | MPICH CPU, host buffers | your MPICH, no `-d rocm` |
@@ -44,7 +55,8 @@ frontier/
 | **C** | **MPICH + RCCL backend** | `ALLREDUCE_INTRA_ALGORITHM=ccl` + `ALLREDUCE_CCL=rccl` + `DEVICE_COLLECTIVES=none` + `rccl-net-plugin` |
 | D | Cray MPICH GPU-aware (default) | `cray-mpich` + `MPICH_GPU_SUPPORT_ENABLED=1` — crashes >4 MiB at ≥1024 nodes; retired from plots |
 | T | **Cray MPICH (as plotted)** | D + `MPICH_GPU_ALLREDUCE_BLK_SIZE=134217728` (128 MB) — the tuned config that survives everywhere, incl. 8192 (`results_crayblk128/`; 64 MB rescues only to 4096, see `docs/NOTES.md`) |
-| E | pure RCCL ceiling | `rccl-tests all_reduce_perf` |
+| K | Cray kernel-off workaround | `MPICH_GPU_ALLREDUCE_USE_KERNEL=0` (`results_crayknob/`) — non-default, kept separate from D/T |
+| E | pure RCCL ceiling | `rccl-tests all_reduce_perf` — only sampled at N=1 early on (`results_1gib_archive/`), not a completed comparison axis |
 
 ## Order of operations (all from `frontier/`)
 ```bash
@@ -64,15 +76,23 @@ sbatch -N 2 run/run_allreduce.sbatch     # smoke
 ./run/submit_scaling.sh "128 256 512 1024"
 ./run/submit_scaling.sh "2048 4096"
 
+# 8192 nodes (~87% of Frontier) needs its own path: run_cray_blk128.sbatch for Cray,
+# and run_rccl_8192_sweep.sbatch (per-size launches, chunkable via args) for RCCL --
+# a single shared-comm launch across all 65,536 ranks wedges after the first size.
+# See docs/NOTES.md for the full 8192 chronology (giants recipe: SWEEP_ITERS=2).
+
 watch -n 30 ./check/monitor.sh           # live health while the sweep drains
 ./check/check_results.sh                 # scan committed results
 ```
 
 ## Plotting
 Open `plots/plot.ipynb` in Jupyter or VSCode (Python + Jupyter extensions; needs
-`pandas numpy matplotlib`). Run cell 1 (loads `results_sweep/`), then any plot cell —
-`plot_latency_vs_size(nodes)`, `plot_speedup_vs_size("D")`, `plot_scaling(size)`,
-`plot_crossover("D")`. Re-run cell 1 after adding new results and every plot updates.
+`pandas numpy matplotlib`). Run cell 1 (loads `results_sweep/` + `results_ml/` +
+`results_crayblk128/` + `results_crayknob/`), then any plot cell —
+`plot_latency_vs_size(nodes)`, `plot_speedup_vs_size("T")`, `plot_scaling(size)`,
+`plot_crossover("T")`, `plot_ml_sync()`, or `plot_headline()` for the layperson
+BERT-Large figure (saves `headline_bert.svg`). Re-run cell 1 after adding new
+results and every plot updates.
 
 ## Gotchas (full chronology in docs/NOTES.md)
 1. Build MPICH with **amdclang + system libfabric (CXI)**, not the `cc` wrapper (avoids Cray-MPI contamination); `--disable-weak-symbols`; `module unload cray-mpich` at runtime.
